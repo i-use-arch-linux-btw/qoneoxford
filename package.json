@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check-env": "node scripts/check-dev-before-push.js",
+    "prepush": "npm run check-env"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

@@ -2,8 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { createClient } from "@/lib/supabase/server";
-import type { Profile } from "@/lib/supabase/types";
+import { getProfileBySlug } from "@/lib/features/people";
 import { Button } from "@/components/ui/button";
 import { ShareButton } from "@/components/share-button";
 
@@ -13,20 +12,19 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const supabase = createClient();
-  if (!supabase) return { title: "Profile | #OneOxford" };
-  const { data } = await supabase.from("profiles").select("name, one_thing, photo_url").eq("slug", slug).single();
-  const row = data as { name: string; one_thing: string; photo_url: string } | null;
-  if (!row) return { title: "Profile | #OneOxford" };
-  const title = `${row.name} · #OneOxford`;
-  const description = row.one_thing ? `${row.name} — ${row.one_thing.slice(0, 120)}…` : `${row.name} · One Oxford`;
+  const profile = await getProfileBySlug(slug);
+  if (!profile) return { title: "Profile | #OneOxford" };
+  const title = `${profile.name} · #OneOxford`;
+  const description = profile.one_thing
+    ? `${profile.name} — ${profile.one_thing.slice(0, 120)}…`
+    : `${profile.name} · One Oxford`;
   return {
     title,
     description,
     openGraph: {
       title,
       description,
-      images: row.photo_url ? [{ url: row.photo_url, width: 600, height: 800 }] : [],
+      images: profile.photo_url ? [{ url: profile.photo_url, width: 600, height: 800 }] : [],
     },
     twitter: { card: "summary_large_image", title, description },
   };
@@ -34,18 +32,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProfilePage({ params }: Props) {
   const { slug } = await params;
-  const supabase = createClient();
-  if (!supabase) {
-    notFound();
-  }
-  const { data, error } = await supabase.from("profiles").select("*").eq("slug", slug).single();
-  if (error || !data) {
-    notFound();
-  }
-  const profile = data as Profile;
+  const profile = await getProfileBySlug(slug);
+  if (!profile) notFound();
 
   return (
-    <div className="container px-4 py-8">
+    <div className="container mx-auto max-w-3xl px-4 py-8">
       <div className="mx-auto max-w-2xl">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
           <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden rounded-lg bg-muted sm:w-64">

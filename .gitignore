@@ -15,9 +15,14 @@
 # Production / build
 /build
 
-# Environment (never commit secrets)
-.env*
+# Environment (never commit secrets). Allow convention files; block local overrides.
+.env
+.env.local
+.env*.local
+!.env.development
+!.env.production
 !.env.example
+!.env.local.example
 
 # Supabase CLI (local state, generated types)
 .supabase/

@@ -5,7 +5,7 @@ export const metadata = {
 
 export default function VotePage() {
   return (
-    <div className="container max-w-2xl px-4 py-8">
+    <div className="container mx-auto max-w-2xl px-4 py-8">
       <h1 className="text-3xl font-bold text-foreground">How to vote</h1>
       <p className="mt-2 text-muted-foreground">
         Voting runs 9–12 February. One vote — one voice.

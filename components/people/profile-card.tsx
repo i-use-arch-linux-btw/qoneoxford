@@ -3,8 +3,6 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Profile } from "@/lib/supabase/types";
 
-const PAGE_SIZE = 24;
-
 export function ProfileCard({ profile }: { profile: Profile }) {
   return (
     <Link href={`/people/${profile.slug}`} className="block transition-opacity hover:opacity-90">
@@ -32,5 +30,3 @@ export function ProfileCard({ profile }: { profile: Profile }) {
     </Link>
   );
 }
-
-export { PAGE_SIZE };

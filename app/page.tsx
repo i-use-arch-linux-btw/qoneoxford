@@ -15,7 +15,7 @@ export default function Home() {
         <Button asChild size="lg" className="bg-[#E2C044] text-[#002147] hover:bg-[#E2C044]/90">
           <Link href="/people">{heroCtaPrimary}</Link>
         </Button>
-        <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white/10 hover:text-white">
+        <Button asChild size="lg" variant="outline" className="border-white bg-transparent text-white hover:bg-white/10 hover:text-white">
           <Link href="/people/add">{heroCtaSecondary}</Link>
         </Button>
       </div>

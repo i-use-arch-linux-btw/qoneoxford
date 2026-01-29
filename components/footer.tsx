@@ -6,7 +6,7 @@ const DISCLAIMER =
 export function Footer() {
   return (
     <footer className="border-t border-border bg-muted/30">
-      <div className="container px-4 py-8">
+      <div className="container mx-auto max-w-5xl px-4 py-8 text-center">
         <p className="text-center text-sm text-muted-foreground">
           {DISCLAIMER.split(" on ")[0]}
           {" on "}
@@ -20,10 +20,11 @@ export function Footer() {
         <p className="mt-4 text-center text-xs text-muted-foreground">
           David Quan · Oxford Student Union · #OneOxford
         </p>
-        <nav className="mt-4 flex justify-center gap-6 text-xs text-muted-foreground">
+        <nav className="mt-4 flex flex-wrap justify-center gap-6 text-xs text-muted-foreground">
           <Link href="/people" className="hover:text-foreground">Community</Link>
           <Link href="/about" className="hover:text-foreground">About</Link>
           <Link href="/manifesto" className="hover:text-foreground">Manifesto</Link>
+          <Link href="/listen" className="hover:text-foreground">Listen</Link>
           <Link href="/vote" className="hover:text-foreground">Vote</Link>
         </nav>
       </div>

@@ -1,12 +1,13 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
-import type { Profile } from "@/lib/supabase/types";
+import {
+  getProfiles,
+  PAGE_SIZE,
+  COLLEGES,
+} from "@/lib/features/people";
 import { Button } from "@/components/ui/button";
-import { ProfileCard, PAGE_SIZE } from "@/components/profile-card";
-import collegesData from "@/data/colleges.json";
-
-const colleges = collegesData as string[];
+import { ProfileCard } from "@/components/people/profile-card";
+import { CollegeFilter } from "@/components/people/college-filter";
 
 export const dynamic = "force-dynamic";
 
@@ -18,73 +19,41 @@ export default async function PeoplePage({
   const params = await searchParams;
   const collegeFilter = params.college ?? "";
   const page = Math.max(1, parseInt(params.page ?? "1", 10));
-  const from = (page - 1) * PAGE_SIZE;
-  const to = from + PAGE_SIZE - 1;
 
-  const supabase = createClient();
-  let profiles: Profile[] = [];
-  let count = 0;
+  const { profiles, totalCount } = await getProfiles({
+    college: collegeFilter || undefined,
+    page,
+  });
 
-  if (supabase) {
-    let q = supabase
-      .from("profiles")
-      .select("*", { count: "exact" })
-      .order("created_at", { ascending: false });
-    if (collegeFilter) q = q.eq("college", collegeFilter);
-    const res = await q.range(from, to);
-    profiles = res.data ?? [];
-    count = res.count ?? 0;
-  }
-
-  const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
   const hasMore = page < totalPages;
 
   return (
-    <div className="container px-4 py-8">
-      <h1 className="text-3xl font-bold text-foreground">Community</h1>
-      <p className="mt-2 text-muted-foreground">
-        Meet the people behind #OneOxford. Filter by college or add your voice.
-      </p>
+    <div className="container mx-auto max-w-5xl px-4 py-8">
+      <header className="text-center">
+        <h1 className="text-3xl font-bold text-foreground">Community</h1>
+        <p className="mx-auto mt-2 max-w-xl text-muted-foreground">
+          Meet the people behind #OneOxford. Filter by college or add your voice.
+        </p>
+      </header>
 
-      <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm font-medium text-muted-foreground">College:</span>
-          <div className="flex flex-wrap gap-2">
-            <Link
-              href="/people"
-              className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                !collegeFilter
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
-              }`}
-            >
-              All
-            </Link>
-            {colleges.slice(0, 12).map((c) => (
-              <Link
-                key={c}
-                href={collegeFilter === c ? "/people" : `/people?college=${encodeURIComponent(c)}`}
-                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                  collegeFilter === c
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-muted-foreground hover:bg-muted/80"
-                }`}
-              >
-                {c.replace(" College", "")}
-              </Link>
-            ))}
-          </div>
+      <div className="mt-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6">
+        <div className="flex min-w-0 flex-wrap items-center justify-center gap-3">
+          <span className="shrink-0 text-sm font-medium text-muted-foreground">College:</span>
+          <Suspense fallback={<div className="h-9 w-[200px] shrink-0 rounded-md border bg-muted" />}>
+            <CollegeFilter colleges={COLLEGES} />
+          </Suspense>
         </div>
-        <Button asChild>
+        <Button asChild className="shrink-0">
           <Link href="/people/add">Add your voice</Link>
         </Button>
       </div>
 
       <Suspense fallback={<PeopleGridSkeleton />}>
         {profiles.length === 0 ? (
-          <div className="mt-12 rounded-lg border border-dashed border-border p-12 text-center text-muted-foreground">
-            <p>No profiles yet. Be the first — add your voice.</p>
-            <Button asChild className="mt-4">
+          <div className="mx-auto mt-12 max-w-md rounded-lg border border-border bg-muted/30 px-8 py-12 text-center">
+            <p className="text-base text-muted-foreground">No profiles yet. Be the first — add your voice.</p>
+            <Button asChild className="mt-6">
               <Link href="/people/add">Add yourself</Link>
             </Button>
           </div>

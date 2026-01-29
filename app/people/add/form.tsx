@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { addProfile } from "./actions";
+import { addProfile } from "@/lib/features/people";
 
 export function AddProfileForm({ colleges }: { colleges: string[] }) {
   const [college, setCollege] = useState("");

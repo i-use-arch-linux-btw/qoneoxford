@@ -29,6 +29,14 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Development vs production
+
+- **Local dev**: `npm run dev` uses `.env.development` and `.env.local` (local Supabase, `NEXT_PUBLIC_APP_ENV=development`).
+- **Production**: Vercel builds use `.env.production` and Vercel env vars (online Supabase, `NEXT_PUBLIC_APP_ENV=production`).
+- **Before pushing**: run `npm run prepush` (or `npm run check-env`) so the script fails if `.env.local` has `NEXT_PUBLIC_APP_ENV=production`.
+
+Copy `.env.local.example` to `.env.local` and fill in local Supabase URL and keys. Do not set production env in `.env.local`.
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.

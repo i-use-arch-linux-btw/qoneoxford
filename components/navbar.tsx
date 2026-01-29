@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/about", label: "About" },
   { href: "/manifesto", label: "Manifesto" },
   { href: "/videos", label: "Videos" },
+  { href: "/listen", label: "Listen" },
   { href: "/events", label: "Events" },
   { href: "/vote", label: "Vote" },
   { href: "/newsletter", label: "Newsletter" },
@@ -36,7 +37,7 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Button asChild size="sm" variant="default">
+          <Button asChild size="sm" variant="default" className="self-center">
             <Link href="/people/add">Add your voice</Link>
           </Button>
         </nav>

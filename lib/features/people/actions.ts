@@ -3,14 +3,16 @@
 import { getServiceRoleClient } from "@/lib/supabase/server";
 import type { Database } from "@/lib/supabase/types";
 import { profileSlug } from "@/lib/slug";
+import { PROFILE_PHOTOS_BUCKET } from "./constants";
 
 type ProfileInsert = Database["public"]["Tables"]["profiles"]["Insert"];
 
-const BUCKET = "profile-photos";
-
 export type AddProfileState = { error?: string; success?: boolean; slug?: string };
 
-export async function addProfile(prev: AddProfileState, formData: FormData): Promise<AddProfileState> {
+export async function addProfile(
+  prev: AddProfileState,
+  formData: FormData
+): Promise<AddProfileState> {
   const name = formData.get("name") as string | null;
   const college = formData.get("college") as string | null;
   const subject = formData.get("subject") as string | null;
@@ -27,7 +29,11 @@ export async function addProfile(prev: AddProfileState, formData: FormData): Pro
   }
 
   let slug = profileSlug(name.trim(), college.trim());
-  const { data: existing } = await supabase.from("profiles").select("id").eq("slug", slug).maybeSingle();
+  const { data: existing } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("slug", slug)
+    .maybeSingle();
   if (existing) {
     slug = `${slug}-${Date.now().toString(36)}`;
   }
@@ -36,16 +42,20 @@ export async function addProfile(prev: AddProfileState, formData: FormData): Pro
   const path = `${slug}.${ext}`;
 
   const arrayBuffer = await photo.arrayBuffer();
-  const { error: uploadError } = await supabase.storage.from(BUCKET).upload(path, arrayBuffer, {
-    contentType: photo.type || "image/jpeg",
-    upsert: true,
-  });
+  const { error: uploadError } = await supabase.storage
+    .from(PROFILE_PHOTOS_BUCKET)
+    .upload(path, arrayBuffer, {
+      contentType: photo.type || "image/jpeg",
+      upsert: true,
+    });
 
   if (uploadError) {
     return { error: "Photo upload failed. Please try again." };
   }
 
-  const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(path);
+  const { data: urlData } = supabase.storage
+    .from(PROFILE_PHOTOS_BUCKET)
+    .getPublicUrl(path);
   const photoUrl = urlData.publicUrl;
 
   const row: ProfileInsert = {
