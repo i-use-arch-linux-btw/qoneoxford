@@ -58,6 +58,17 @@ export default async function ProfilePage({ params }: Props) {
                 &ldquo;{profile.one_thing}&rdquo;
               </blockquote>
             )}
+            {profile.involvements && (
+              <p className="mt-4 text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">Involvements / community:</span>{" "}
+                {profile.involvements}
+              </p>
+            )}
+            {profile.other_info && (
+              <p className="mt-3 text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">More:</span> {profile.other_info}
+              </p>
+            )}
             <div className="mt-6 flex flex-wrap gap-3">
               <ShareButton
                 title={`${profile.name} · #OneOxford`}

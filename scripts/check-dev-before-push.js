@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Run before pushing to confirm local env is set for development.
- * Fails if .env.local has NEXT_PUBLIC_APP_ENV=production (avoids using prod Supabase locally).
+ * Run before pushing to confirm local env is for localhost only.
+ * Fails if .env.local has production or staging (those belong on Vercel only).
  * Usage: node scripts/check-dev-before-push.js
  */
 const fs = require("fs");
@@ -23,9 +23,11 @@ function parseEnvFile(filePath) {
 const env = parseEnvFile(envPath);
 const appEnv = env.NEXT_PUBLIC_APP_ENV ?? "development";
 
-if (appEnv === "production") {
+const allowedLocal = ["development"];
+if (!allowedLocal.includes(appEnv)) {
   console.error(
-    "check-dev-before-push: NEXT_PUBLIC_APP_ENV=production in .env.local. Use development for local dev."
+    "check-dev-before-push: .env.local has NEXT_PUBLIC_APP_ENV=%s. For localhost use development only (staging/production are for deployed builds).",
+    appEnv
   );
   process.exit(1);
 }

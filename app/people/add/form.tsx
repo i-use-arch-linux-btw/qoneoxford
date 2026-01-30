@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { addProfile } from "@/lib/features/people";
+import { addProfile } from "@/lib/features/people/actions";
 
 export function AddProfileForm({ colleges }: { colleges: string[] }) {
   const [college, setCollege] = useState("");
@@ -77,6 +77,24 @@ export function AddProfileForm({ colleges }: { colleges: string[] }) {
           required
           placeholder="One sentence or two..."
           rows={3}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="involvements">Involvements / community around Oxford</Label>
+        <Textarea
+          id="involvements"
+          name="involvements"
+          placeholder="E.g. President of Oxford Speaks, Oxford Politics Society…"
+          rows={2}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="other_info">Any other information?</Label>
+        <Textarea
+          id="other_info"
+          name="other_info"
+          placeholder="Anything else you’d like to share…"
+          rows={2}
         />
       </div>
       <div className="space-y-2">

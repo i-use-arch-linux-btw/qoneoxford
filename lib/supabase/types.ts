@@ -19,6 +19,8 @@ export interface Database {
           one_thing: string;
           photo_url: string;
           video_clip_url: string | null;
+          other_info: string | null;
+          involvements: string | null;
           created_at: string;
           approved: boolean;
         };
@@ -31,6 +33,8 @@ export interface Database {
           one_thing: string;
           photo_url: string;
           video_clip_url?: string | null;
+          other_info?: string | null;
+          involvements?: string | null;
           created_at?: string;
           approved?: boolean;
         };

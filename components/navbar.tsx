@@ -1,10 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
+import type { Session } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, LogOut } from "lucide-react";
 
 const navLinks = [
   { href: "/people", label: "Community" },
@@ -19,6 +22,27 @@ const navLinks = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data: { session: s } }) => setSession(s));
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, s) => setSession(s));
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setOpen(false);
+    router.refresh();
+    router.push("/");
+  };
+
+  const userLabel = session?.user?.email ?? "Account";
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -40,6 +64,26 @@ export function Navbar() {
           <Button asChild size="sm" variant="default" className="self-center">
             <Link href="/people/add">Add your voice</Link>
           </Button>
+          {session ? (
+            <div className="flex items-center gap-2">
+              <span className="max-w-[140px] truncate text-sm text-muted-foreground" title={session.user.email ?? undefined}>
+                {userLabel}
+              </span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={handleSignOut}
+                aria-label="Sign out"
+              >
+                <LogOut className="size-4" />
+              </Button>
+            </div>
+          ) : (
+            <Button asChild size="sm" variant="outline" className="self-center">
+              <Link href="/auth/login">Sign in</Link>
+            </Button>
+          )}
         </nav>
 
         <Sheet open={open} onOpenChange={setOpen}>
@@ -65,6 +109,28 @@ export function Navbar() {
                   Add your voice
                 </Link>
               </Button>
+              {session ? (
+                <>
+                  <span className="truncate text-sm text-muted-foreground" title={session.user.email ?? undefined}>
+                    {userLabel}
+                  </span>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleSignOut}
+                    className="justify-start gap-2"
+                  >
+                    <LogOut className="size-4" />
+                    Sign out
+                  </Button>
+                </>
+              ) : (
+                <Button asChild>
+                  <Link href="/auth/login" onClick={() => setOpen(false)}>
+                    Sign in
+                  </Link>
+                </Button>
+              )}
             </nav>
           </SheetContent>
         </Sheet>

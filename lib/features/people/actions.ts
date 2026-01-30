@@ -17,6 +17,8 @@ export async function addProfile(
   const college = formData.get("college") as string | null;
   const subject = formData.get("subject") as string | null;
   const oneThing = formData.get("one_thing") as string | null;
+  const otherInfo = (formData.get("other_info") as string | null)?.trim() || null;
+  const involvements = (formData.get("involvements") as string | null)?.trim() || null;
   const photo = formData.get("photo") as File | null;
 
   if (!name?.trim() || !college?.trim() || !subject?.trim() || !oneThing?.trim() || !photo?.size) {
@@ -66,6 +68,8 @@ export async function addProfile(
     one_thing: oneThing.trim(),
     photo_url: photoUrl,
     video_clip_url: null,
+    other_info: otherInfo,
+    involvements: involvements,
     approved: true,
   };
   const { error: insertError } = await supabase.from("profiles").insert(row as never);

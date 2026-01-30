@@ -20,6 +20,11 @@ export function ProfileCard({ profile }: { profile: Profile }) {
         <CardContent className="p-3">
           <p className="font-semibold text-foreground">{profile.name}</p>
           <p className="text-sm text-muted-foreground">{profile.college}</p>
+          {profile.involvements && (
+            <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
+              {profile.involvements}
+            </p>
+          )}
           {profile.one_thing && (
             <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
               {profile.one_thing}

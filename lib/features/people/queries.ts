@@ -11,7 +11,7 @@ export async function getProfiles(
   const from = (page - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
 
-  const supabase = createClient();
+  const supabase = await createClient();
   if (!supabase) {
     return { profiles: [], totalCount: 0 };
   }
@@ -31,7 +31,7 @@ export async function getProfiles(
 }
 
 export async function getProfileBySlug(slug: string): Promise<Profile | null> {
-  const supabase = createClient();
+  const supabase = await createClient();
   if (!supabase) return null;
 
   const { data, error } = await supabase
