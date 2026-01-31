@@ -84,6 +84,16 @@ RLS allows public read of approved profiles and colleges; the service role is us
 - **Staging**: In Vercel, set env vars for the **Preview** environment: `NEXT_PUBLIC_APP_ENV=staging` and your staging Supabase URL/keys (e.g. a separate Supabase project or branch for admins).
 - **Production**: In Vercel, set env vars for **Production**: `NEXT_PUBLIC_APP_ENV=production` and production Supabase URL/keys.
 
+**Auth on Vercel (login on pushed/preview builds):** For sign-in to work on deployed sites, set these in **Vercel → Your project → Settings → Environment Variables** for the right environment (Production and/or Preview):
+
+| Variable | Where to get it |
+|----------|-----------------|
+| `NEXT_PUBLIC_APP_ENV` | `production` for Production, `staging` for Preview. |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase Dashboard → Project Settings → API → **Project URL**. |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Same page → **Project API keys** → anon public. |
+
+Redeploy after adding or changing env vars (Vercel → Deployments → … → Redeploy).
+
 Before pushing, run `npm run prepush` (or `npm run check-env`). It fails if `.env.local` has `staging` or `production` (those are for deployed builds only).
 
 ## Auth (Google sign-in)
