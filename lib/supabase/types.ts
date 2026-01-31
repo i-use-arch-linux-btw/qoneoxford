@@ -16,7 +16,7 @@ export interface Database {
           name: string;
           college: string;
           subject: string;
-          graduation_year: number;
+          graduation_year: string;
           one_thing: string | null;
           photo_url: string | null;
           video_clip_url: string | null;
@@ -31,7 +31,7 @@ export interface Database {
           name: string;
           college: string;
           subject: string;
-          graduation_year: number;
+          graduation_year: string;
           one_thing?: string | null;
           photo_url?: string | null;
           video_clip_url?: string | null;

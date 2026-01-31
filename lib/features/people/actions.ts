@@ -23,13 +23,25 @@ export async function addProfile(
   const photo = formData.get("photo") as File | null;
 
   if (!name?.trim() || !college?.trim() || !subject?.trim() || !graduationYearStr?.trim()) {
-    return { error: "Please fill in name, college, subject, and year of graduation." };
+    return { error: "Please fill in name, college, subject, and year." };
   }
 
-  const graduationYear = parseInt(graduationYearStr, 10);
-  if (isNaN(graduationYear) || graduationYear < 2000 || graduationYear > 2035) {
-    return { error: "Please enter a valid graduation year (2000-2035)." };
+  const VALID_YEAR_OPTIONS = [
+    "Bachelor's 1st Year",
+    "Bachelor's 2nd Year",
+    "Bachelor's 3rd Year",
+    "Bachelor's 4th Year",
+    "Master's",
+    "DPhil",
+    "Staff/Alumni",
+    "Other",
+  ];
+
+  if (!VALID_YEAR_OPTIONS.includes(graduationYearStr)) {
+    return { error: "Please select a valid year of study." };
   }
+
+  const graduationYear = graduationYearStr;
 
   const supabase = getServiceRoleClient();
   if (!supabase) {
