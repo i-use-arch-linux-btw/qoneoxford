@@ -10,6 +10,13 @@ export const metadata = {
   description: "Join the #OneOxford community. Share your One thing you'd change about Oxford.",
 };
 
+type ExistingProfile = {
+  id: string;
+  slug: string;
+  name: string;
+  approved: boolean;
+} | null;
+
 export default async function AddYourselfPage() {
   const supabase = await createClient();
   const { data: { user } } = supabase 
@@ -17,16 +24,16 @@ export default async function AddYourselfPage() {
     : { data: { user: null } };
 
   // Check if user has already submitted a profile
-  let existingProfile = null;
+  let existingProfile: ExistingProfile = null;
   if (user) {
     const serviceClient = getServiceRoleClient();
     if (serviceClient) {
       const { data } = await serviceClient
         .from("profiles")
         .select("id, slug, name, approved")
-        .eq("user_id", user.id)
+        .eq("user_id" as never, user.id)
         .maybeSingle();
-      existingProfile = data;
+      existingProfile = data as ExistingProfile;
     }
   }
 

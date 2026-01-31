@@ -63,7 +63,7 @@ export async function addProfile(
   const { data: existingProfile } = await supabase
     .from("profiles")
     .select("id, slug")
-    .eq("user_id", user.id)
+    .eq("user_id" as never, user.id)
     .maybeSingle();
 
   if (existingProfile) {
