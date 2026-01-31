@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import LoginPage from "@/app/auth/login/page";
+import { createClient } from "@/lib/supabase/client";
 
 const mockSignInWithOAuth = vi.fn();
 
@@ -43,5 +44,16 @@ describe("Login page", () => {
         }),
       })
     );
+  });
+
+  it("shows auth not configured message when createClient returns null", async () => {
+    vi.mocked(createClient).mockReturnValueOnce(null);
+    render(<LoginPage />);
+    const buttons = screen.getAllByRole("button", { name: /sign in with google/i });
+    fireEvent.click(buttons[0]);
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent(/auth is not configured/i);
+    });
+    expect(mockSignInWithOAuth).not.toHaveBeenCalled();
   });
 });

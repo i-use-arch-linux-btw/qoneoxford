@@ -10,11 +10,18 @@ export function LoginForm() {
   const next = searchParams.get("next") ?? "/";
   const safeNext = next.startsWith("/") ? next : "/";
   const [loading, setLoading] = useState(false);
+  const [authNotConfigured, setAuthNotConfigured] = useState(false);
 
   const handleSignInWithGoogle = useCallback(async () => {
     setLoading(true);
+    setAuthNotConfigured(false);
     try {
       const supabase = createClient();
+      if (!supabase) {
+        setAuthNotConfigured(true);
+        setLoading(false);
+        return;
+      }
       const redirectTo = `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback${safeNext !== "/" ? `?next=${encodeURIComponent(safeNext)}` : ""}`;
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
@@ -37,6 +44,11 @@ export function LoginForm() {
         <p className="mt-2 text-sm text-muted-foreground">
           Use your Google account to sign in to #OneOxford.
         </p>
+        {authNotConfigured && (
+          <p className="mt-4 text-sm text-amber-600 dark:text-amber-400" role="alert">
+            Auth is not configured. Please set Supabase env vars for this environment.
+          </p>
+        )}
         <Button
           type="button"
           className="mt-6 w-full"

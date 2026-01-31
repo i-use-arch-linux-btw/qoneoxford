@@ -31,6 +31,7 @@ export function Navbar() {
 
   useEffect(() => {
     const supabase = createClient();
+    if (!supabase) return;
     supabase.auth.getSession().then(({ data: { session: s } }) => setSession(s));
     const {
       data: { subscription },
@@ -40,7 +41,7 @@ export function Navbar() {
 
   const handleSignOut = async () => {
     const supabase = createClient();
-    await supabase.auth.signOut();
+    if (supabase) await supabase.auth.signOut();
     setOpen(false);
     router.refresh();
     router.push("/");
