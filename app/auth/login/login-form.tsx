@@ -62,7 +62,7 @@ export function LoginForm() {
               <span className="text-[#E2C044]"><span className="font-instrument-serif">#</span>OneOxford</span>
             </h1>
             <p className="mt-8 max-w-md text-lg leading-relaxed text-white/60">
-              Join the movement. One community, one standard, one voice.
+              Join the movement. One community, One standard, One voice.
             </p>
           </div>
 
@@ -89,7 +89,7 @@ export function LoginForm() {
                 Welcome to <span className="text-[#E2C044]"><span className="font-instrument-serif">#</span>OneOxford</span>
               </h1>
               <p className="mt-3 text-sm text-[#002147]/60">
-                Join the movement. One community, one standard, one voice.
+                Join the movement. One community, One standard, One voice.
               </p>
             </div>
 

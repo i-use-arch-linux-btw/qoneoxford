@@ -16,13 +16,19 @@ export async function addProfile(
   const name = formData.get("name") as string | null;
   const college = formData.get("college") as string | null;
   const subject = formData.get("subject") as string | null;
+  const graduationYearStr = formData.get("graduation_year") as string | null;
   const oneThing = formData.get("one_thing") as string | null;
   const otherInfo = (formData.get("other_info") as string | null)?.trim() || null;
   const involvements = (formData.get("involvements") as string | null)?.trim() || null;
   const photo = formData.get("photo") as File | null;
 
-  if (!name?.trim() || !college?.trim() || !subject?.trim()) {
-    return { error: "Please fill in name, college, and subject." };
+  if (!name?.trim() || !college?.trim() || !subject?.trim() || !graduationYearStr?.trim()) {
+    return { error: "Please fill in name, college, subject, and year of graduation." };
+  }
+
+  const graduationYear = parseInt(graduationYearStr, 10);
+  if (isNaN(graduationYear) || graduationYear < 2000 || graduationYear > 2035) {
+    return { error: "Please enter a valid graduation year (2000-2035)." };
   }
 
   const supabase = getServiceRoleClient();
@@ -44,6 +50,12 @@ export async function addProfile(
 
   // Only upload photo if one was provided
   if (photo?.size) {
+    // Validate file size (2MB limit)
+    const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB in bytes
+    if (photo.size > MAX_FILE_SIZE) {
+      return { error: "Photo must be under 2MB. Please choose a smaller image." };
+    }
+
     const ext = photo.name.split(".").pop() || "jpg";
     const path = `${slug}.${ext}`;
 
@@ -70,19 +82,22 @@ export async function addProfile(
     name: name.trim(),
     college: college.trim(),
     subject: subject.trim(),
-    // TODO: Make nullable in DB and use `oneThing?.trim() || null` instead
-    one_thing: oneThing?.trim() || "",
-    // TODO: Make nullable in DB and use `photoUrl` instead
-    photo_url: photoUrl || "",
+    graduation_year: graduationYear,
+    one_thing: oneThing?.trim() || null,
+    photo_url: photoUrl,
     video_clip_url: null,
     other_info: otherInfo,
     involvements: involvements,
-    approved: true,
+    approved: false, // Requires moderation before appearing publicly
   };
+  
+  console.log("Attempting insert with row:", JSON.stringify(row, null, 2));
+  
   const { error: insertError } = await supabase.from("profiles").insert(row as never);
 
   if (insertError) {
-    return { error: "Could not save profile. Please try again." };
+    console.error("Insert error:", insertError);
+    return { error: `Could not save profile: ${insertError.message}` };
   }
 
   return { success: true, slug };

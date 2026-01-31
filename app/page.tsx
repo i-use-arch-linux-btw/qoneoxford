@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { CyclingHeadline } from "@/components/cycling-headline";
 import { ScrollPillars } from "@/components/scroll-pillars";
@@ -20,13 +21,14 @@ export default function Home() {
         <div className="absolute right-0 top-0 hidden h-full w-1/3 lg:block">
           <div className="relative h-full w-full">
             {/* Main large photo - floating animation */}
-            <div className="absolute right-12 top-[15%] h-[45%] w-[70%] animate-fade-in opacity-0 shadow-2xl animation-delay-400">
-              <AnimatedPhotoCard
-                theme="gradient"
-                pattern="circles"
-                floatDirection="up"
-                delay={0}
-                className="h-full w-full"
+            <div className="absolute right-12 top-[15%] h-[45%] w-[70%] animate-fade-in animate-float-up opacity-0 shadow-2xl animation-delay-400">
+              <Image
+                src="/DSC02713.JPG"
+                alt="David Quan"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 25vw, 0vw"
+                priority
               />
             </div>
             {/* Smaller overlapping photo - floating animation */}
@@ -92,7 +94,7 @@ export default function Home() {
       <section className="bg-white py-24 md:py-32">
         <div className="container mx-auto max-w-5xl px-6 md:px-12">
           <p className="font-serif text-3xl font-normal leading-snug tracking-tight text-[#002147] md:text-5xl lg:text-6xl">
-            &ldquo;What&apos;s your <span className="text-[#E2C044]">one thing</span> you&apos;d change about Oxford?&rdquo;
+            &ldquo;What&apos;s your <span className="text-[#E2C044]">One thing</span> you&apos;d change about Oxford?&rdquo;
           </p>
           <p className="mt-6 text-right text-base font-medium text-[#002147]/50 md:text-lg">
             — The question that started it all

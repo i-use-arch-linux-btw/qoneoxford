@@ -72,7 +72,7 @@ export default function VideosPage() {
               Community video
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-[#002147]/60 md:text-xl">
-              50+ voices, each sharing their one thing.
+              50+ voices, each sharing their One thing.
             </p>
           </div>
           {communityId ? (

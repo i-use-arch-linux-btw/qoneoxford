@@ -48,11 +48,11 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
         <div className="container relative mx-auto max-w-7xl px-6 md:px-12">
           {/* Back link */}
           <Link
-            href="/listen"
+            href="/media"
             className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-white/60 transition-colors hover:text-white"
           >
             <ArrowLeft className="size-4" />
-            Back to all episodes
+            Back to Media
           </Link>
 
           {/* Episode title */}
@@ -169,13 +169,13 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
 
             <div className="h-px bg-[#002147]/10" />
 
-            {/* Back to episodes */}
+            {/* Back to Media */}
             <Link
-              href="/listen"
+              href="/media"
               className="group inline-flex items-center gap-2 text-sm font-medium text-[#002147]/60 transition-colors hover:text-[#002147]"
             >
               <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
-              Back to all episodes
+              Back to Media
             </Link>
           </div>
         </div>

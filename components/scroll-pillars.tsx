@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "motion/react";
 const pillars = [
   { 
     word: "Thing", 
-    description: "What's your one thing you'd change about Oxford?",
+    description: "What's your One thing you'd change about Oxford?",
     theme: "gradient" as const,
     pattern: "circles" as const,
   },

@@ -16,8 +16,9 @@ export interface Database {
           name: string;
           college: string;
           subject: string;
-          one_thing: string;
-          photo_url: string;
+          graduation_year: number;
+          one_thing: string | null;
+          photo_url: string | null;
           video_clip_url: string | null;
           other_info: string | null;
           involvements: string | null;
@@ -30,8 +31,9 @@ export interface Database {
           name: string;
           college: string;
           subject: string;
-          one_thing: string;
-          photo_url: string;
+          graduation_year: number;
+          one_thing?: string | null;
+          photo_url?: string | null;
           video_clip_url?: string | null;
           other_info?: string | null;
           involvements?: string | null;

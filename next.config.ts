@@ -8,7 +8,15 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
-  /* Add images.remotePatterns with your Supabase hostname when using optimized images */
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ghiogoesdgzptfmqtrxz.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Profile } from "@/lib/supabase/types";
+import { PlaceholderImage } from "@/components/placeholder-image";
 
 export function ProfileCard({ profile }: { profile: Profile }) {
   return (
@@ -9,14 +10,23 @@ export function ProfileCard({ profile }: { profile: Profile }) {
       className="group block overflow-hidden border border-[#002147]/10 bg-white transition-all hover:border-[#002147]/30 hover:shadow-lg"
     >
       <div className="relative aspect-3/4 w-full bg-[#FAFAFA]">
-        <Image
-          src={profile.photo_url}
-          alt={profile.name}
-          fill
-          className="object-cover transition-transform group-hover:scale-[1.02]"
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          unoptimized
-        />
+        {profile.photo_url ? (
+          <Image
+            src={profile.photo_url}
+            alt={profile.name}
+            fill
+            className="object-cover transition-transform group-hover:scale-[1.02]"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            unoptimized
+          />
+        ) : (
+          <PlaceholderImage
+            variant="portrait"
+            theme="blue"
+            pattern="circles"
+            className="h-full w-full transition-transform group-hover:scale-[1.02]"
+          />
+        )}
       </div>
       <div className="p-4">
         <p className="font-semibold text-[#002147]">{profile.name}</p>

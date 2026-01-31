@@ -50,7 +50,7 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full bg-[#002147]">
       <div className="relative px-8">
-        <div className="flex h-20 items-center justify-center">
+        <div className="flex h-24 items-center justify-center">
           {/* Left links */}
           <nav className="hidden flex-1 items-center justify-end gap-8 xl:flex">
             {leftLinks.map((link) => (
@@ -67,11 +67,11 @@ export function Navbar() {
           {/* Center logo */}
           <Link href="/" className="flex shrink-0 cursor-pointer items-center justify-center px-12">
             <Image
-              src="/logo-skim.png"
+              src="/logo-skim-with-text.png"
               alt="OneOxford"
               width={300}
               height={300}
-              className="h-18 w-auto"
+              className="h-24 w-auto"
               priority
             />
           </Link>
@@ -121,7 +121,7 @@ export function Navbar() {
         </div>
 
         {/* Mobile menu button */}
-        <div className="absolute right-8 top-1/2 -translate-y-1/2 xl:hidden">
+        <div className="absolute right-5 top-1/2 -translate-y-1/2 xl:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild className="xl:hidden">
               <button
