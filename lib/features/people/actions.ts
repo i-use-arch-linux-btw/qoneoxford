@@ -70,8 +70,10 @@ export async function addProfile(
     name: name.trim(),
     college: college.trim(),
     subject: subject.trim(),
-    one_thing: oneThing?.trim() || null,
-    photo_url: photoUrl,
+    // TODO: Make nullable in DB and use `oneThing?.trim() || null` instead
+    one_thing: oneThing?.trim() || "",
+    // TODO: Make nullable in DB and use `photoUrl` instead
+    photo_url: photoUrl || "",
     video_clip_url: null,
     other_info: otherInfo,
     involvements: involvements,
