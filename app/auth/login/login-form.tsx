@@ -11,12 +11,15 @@ export function LoginForm() {
   const next = searchParams.get("next") ?? "/";
   const safeNext = next.startsWith("/") ? next : "/";
   const [loading, setLoading] = useState(false);
+  const [authNotConfigured, setAuthNotConfigured] = useState(false);
 
   const handleSignInWithGoogle = useCallback(async () => {
     setLoading(true);
+    setAuthNotConfigured(false);
     try {
       const supabase = createClient();
       if (!supabase) {
+        setAuthNotConfigured(true);
         setLoading(false);
         return;
       }
@@ -97,6 +100,11 @@ export function LoginForm() {
               <p className="mt-2 text-sm text-[#002147]/60">
                 Use your Google account to continue
               </p>
+              {authNotConfigured && (
+                <p className="mt-4 text-sm text-amber-600" role="alert">
+                  Auth is not configured. Please set Supabase environment variables.
+                </p>
+              )}
             </div>
 
             <div className="animate-fade-up animation-delay-200 mt-10 opacity-0">

@@ -11,6 +11,10 @@ export const brandPillars = [
   { label: "One Oxbridge", description: "Leadership experience at both Cambridge and Oxford" },
 ] as const;
 
+export const heroHeadlinePrimary = "# One";
+export const heroHeadlineSecondary = "# Standard";
+export const heroHeadlineWord1 = "One";
+export const heroHeadlineWord2 = "Standard";
 export const heroTagline = "One Oxford — one community, one standard, one voice.";
 export const heroCtaPrimary = "Meet the community";
 export const heroCtaSecondary = "Add your voice";

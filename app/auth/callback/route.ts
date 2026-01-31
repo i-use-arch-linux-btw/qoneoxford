@@ -26,14 +26,13 @@ export async function GET(request: Request) {
   }
 
   const forwardedHost = request.headers.get("x-forwarded-host");
-  const isLocalEnv = process.env.NODE_ENV === "development";
+  const forwardedProto = request.headers.get("x-forwarded-proto");
   const origin = new URL(request.url).origin;
 
-  if (isLocalEnv) {
-    return NextResponse.redirect(`${origin}${next}`);
-  }
-  if (forwardedHost) {
-    return NextResponse.redirect(`https://${forwardedHost}${next}`);
-  }
-  return NextResponse.redirect(`${origin}${next}`);
+  const base =
+    forwardedHost != null && forwardedHost !== ""
+      ? `${forwardedProto === "https" ? "https" : "http"}://${forwardedHost}`
+      : origin;
+
+  return NextResponse.redirect(`${base}${next}`);
 }
