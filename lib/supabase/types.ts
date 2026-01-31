@@ -16,7 +16,7 @@ export interface Database {
           name: string;
           college: string;
           subject: string;
-          graduation_year: string;
+          year: string;
           one_thing: string | null;
           photo_url: string | null;
           video_clip_url: string | null;
@@ -24,6 +24,7 @@ export interface Database {
           involvements: string | null;
           created_at: string;
           approved: boolean;
+          user_id: string | null;
         };
         Insert: {
           id?: string;
@@ -31,7 +32,7 @@ export interface Database {
           name: string;
           college: string;
           subject: string;
-          graduation_year: string;
+          year: string;
           one_thing?: string | null;
           photo_url?: string | null;
           video_clip_url?: string | null;
@@ -39,6 +40,7 @@ export interface Database {
           involvements?: string | null;
           created_at?: string;
           approved?: boolean;
+          user_id?: string | null;
         };
         Update: Partial<Database["public"]["Tables"]["profiles"]["Insert"]>;
       };

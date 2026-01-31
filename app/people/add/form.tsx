@@ -33,7 +33,7 @@ interface FormDraft {
   name: string;
   college: string;
   subject: string;
-  graduation_year: string;
+  year: string;
   one_thing: string;
   involvements: string;
   other_info: string;
@@ -81,7 +81,7 @@ export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; i
         if (draft.name) setName(draft.name);
         if (draft.college) setCollege(draft.college);
         if (draft.subject) setSubject(draft.subject);
-        if (draft.graduation_year) setGraduationYear(draft.graduation_year);
+        if (draft.year) setGraduationYear(draft.year);
         if (draft.one_thing) setOneThing(draft.one_thing);
         if (draft.involvements) setInvolvements(draft.involvements);
         if (draft.other_info) setOtherInfo(draft.other_info);
@@ -100,7 +100,7 @@ export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; i
         name,
         college,
         subject,
-        graduation_year: graduationYear,
+        year: graduationYear,
         one_thing: oneThing,
         involvements,
         other_info: otherInfo,
@@ -196,12 +196,12 @@ export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; i
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="graduation_year" className="text-sm font-semibold uppercase tracking-wide text-[#002147]/70">
+        <Label htmlFor="year" className="text-sm font-semibold uppercase tracking-wide text-[#002147]/70">
           Year <span className="text-[#E2C044]">*</span>
         </Label>
-        <input type="hidden" name="graduation_year" value={graduationYear} required />
+        <input type="hidden" name="year" value={graduationYear} required />
         <Select value={graduationYear} onValueChange={setGraduationYear} required>
-          <SelectTrigger id="graduation_year" className={selectStyles}>
+          <SelectTrigger id="year" className={selectStyles}>
             <SelectValue placeholder="Select year" />
           </SelectTrigger>
           <SelectContent className="border border-[#002147]/20">
