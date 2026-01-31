@@ -24,13 +24,13 @@ export function CollegeFilter({ colleges }: { colleges: string[] }) {
 
   return (
     <Select value={current || "all"} onValueChange={(v) => onValueChange(v === "all" ? "" : v)}>
-      <SelectTrigger className="w-[200px]">
+      <SelectTrigger className="w-[220px] border-[#002147]/20 bg-white text-[#002147] focus:border-[#002147] focus:ring-[#002147]/20">
         <SelectValue placeholder="All colleges" />
       </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="all">All colleges</SelectItem>
+      <SelectContent className="border-[#002147]/20 bg-white">
+        <SelectItem value="all" className="text-[#002147] focus:bg-[#002147]/5 focus:text-[#002147]">All colleges</SelectItem>
         {colleges.map((c) => (
-          <SelectItem key={c} value={c}>
+          <SelectItem key={c} value={c} className="text-[#002147] focus:bg-[#002147]/5 focus:text-[#002147]">
             {c}
           </SelectItem>
         ))}

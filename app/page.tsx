@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { CyclingHeadline } from "@/components/cycling-headline";
 import { ScrollPillars } from "@/components/scroll-pillars";
@@ -9,10 +10,12 @@ export default function Home() {
       {/* Hero Section - Bold & Oversized */}
       <section className="relative h-[calc(100vh-80px)] overflow-hidden bg-[#002147]">
         <div className="container relative mx-auto flex h-full max-w-7xl flex-col items-start justify-center px-6 md:px-12">
+          {/* Massive headline */}
           <div className="max-w-5xl">
             <CyclingHeadline />
           </div>
 
+          {/* Bold CTAs */}
           <div className="animate-fade-up animation-delay-300 mt-16 flex flex-col gap-4 opacity-0 sm:flex-row sm:gap-6 md:mt-20">
             <Link
               href="/people/add"
@@ -30,6 +33,7 @@ export default function Home() {
             </Link>
           </div>
 
+          {/* Bottom accent line */}
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#E2C044]" />
         </div>
       </section>
@@ -46,7 +50,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Brand Pillars - Scroll Experience (#OneStandard etc.) */}
+      {/* Brand Pillars - Scroll Experience */}
       <ScrollPillars />
 
       {/* Big CTA Section */}
@@ -55,7 +59,7 @@ export default function Home() {
           <h2 className="font-serif text-4xl font-normal leading-[1.1] tracking-tight text-[#002147] md:text-6xl lg:text-7xl">
             Ready to vote<br />for change?
           </h2>
-
+          
           <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:gap-6">
             <Link
               href="/vote"
@@ -81,7 +85,7 @@ export default function Home() {
           <h2 className="font-serif text-4xl font-normal leading-[1.1] tracking-tight text-[#002147] md:text-5xl">
             Discover more
           </h2>
-
+          
           <div className="mt-12 grid gap-4 sm:grid-cols-2">
             {[
               { label: "Community", href: "/people", description: "Meet the people behind the movement" },

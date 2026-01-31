@@ -22,7 +22,7 @@ export function CyclingHeadline() {
 
   return (
     <h1 className="animate-fade-up flex items-end gap-2 font-serif text-[clamp(3.5rem,12vw,10rem)] font-normal leading-[0.9] tracking-tight text-white opacity-0 md:gap-4">
-      <span
+      <span 
         className="mb-[-0.1em] font-instrument-serif text-[clamp(7rem,24vw,20rem)] leading-none text-white"
         aria-hidden="true"
       >
@@ -30,10 +30,10 @@ export function CyclingHeadline() {
       </span>
       <div className="flex flex-col">
         <span>One</span>
-        <span
+        <span 
           className={`transition-all duration-300 ${
-            isAnimating
-              ? "translate-y-2 opacity-0"
+            isAnimating 
+              ? "translate-y-2 opacity-0" 
               : "translate-y-0 opacity-100"
           }`}
         >

@@ -25,6 +25,7 @@ export default function ManifestoPage() {
             Our vision for #OneOxford — practical support, connectivity, and a student union that works for everyone.
           </p>
         </div>
+        {/* Bottom accent line */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#E2C044]" />
       </section>
 
@@ -32,6 +33,7 @@ export default function ManifestoPage() {
       <section className="bg-white py-20 md:py-28">
         <div className="container mx-auto max-w-3xl px-6 md:px-12">
           <div className="space-y-12 text-[#002147]">
+            {/* Vision */}
             <div>
               <p className="whitespace-pre-line text-lg leading-relaxed md:text-xl">
                 {manifestoSections.vision}
@@ -40,12 +42,14 @@ export default function ManifestoPage() {
 
             <div className="h-px bg-[#002147]/10" />
 
+            {/* SU as Hub intro */}
             <div>
               <p className="whitespace-pre-line text-lg leading-relaxed md:text-xl">
                 {manifestoSections.suAsHub}
               </p>
             </div>
 
+            {/* Policy sections */}
             {policySections.map((section, index) => (
               <div key={index}>
                 <div className="h-px bg-[#002147]/10" />
@@ -62,6 +66,7 @@ export default function ManifestoPage() {
 
             <div className="h-px bg-[#002147]/10" />
 
+            {/* Delivery / Track Record */}
             <div>
               <p className="whitespace-pre-line text-lg leading-relaxed md:text-xl">
                 {manifestoSections.delivery}

@@ -18,6 +18,7 @@ export default function AboutPage() {
             My story and why I&apos;m running for Oxford SU.
           </p>
         </div>
+        {/* Bottom accent line */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#E2C044]" />
       </section>
 
