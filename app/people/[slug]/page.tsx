@@ -122,6 +122,22 @@ export default async function ProfilePage({ params }: Props) {
                 </div>
               )}
               
+              {profile.instagram_handle && (
+                <div>
+                  <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[#002147]/50">
+                    Instagram
+                  </p>
+                  <a
+                    href={`https://www.instagram.com/${profile.instagram_handle}/`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-lg text-[#002147] underline transition-colors hover:text-[#E2C044]"
+                  >
+                    @{profile.instagram_handle}
+                  </a>
+                </div>
+              )}
+              
               <div className="pt-4">
                 <ShareButton
                   title={`${profile.name} · #OneOxford`}

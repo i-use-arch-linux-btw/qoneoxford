@@ -37,6 +37,7 @@ interface FormDraft {
   one_thing: string;
   involvements: string;
   other_info: string;
+  instagram_handle: string;
 }
 
 export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; isSignedIn: boolean }) {
@@ -51,6 +52,7 @@ export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; i
   const [oneThing, setOneThing] = useState("");
   const [involvements, setInvolvements] = useState("");
   const [otherInfo, setOtherInfo] = useState("");
+  const [instagramHandle, setInstagramHandle] = useState("");
   
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
@@ -85,6 +87,7 @@ export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; i
         if (draft.one_thing) setOneThing(draft.one_thing);
         if (draft.involvements) setInvolvements(draft.involvements);
         if (draft.other_info) setOtherInfo(draft.other_info);
+        if (draft.instagram_handle) setInstagramHandle(draft.instagram_handle);
         // Clear after restoring so it doesn't persist forever
         sessionStorage.removeItem(STORAGE_KEY);
       }
@@ -104,6 +107,7 @@ export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; i
         one_thing: oneThing,
         involvements,
         other_info: otherInfo,
+        instagram_handle: instagramHandle,
       };
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
     } catch {
@@ -264,6 +268,20 @@ export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; i
           value={otherInfo}
           onChange={(e) => setOtherInfo(e.target.value)}
           className={textareaStyles}
+        />
+      </div>
+      
+      <div className="space-y-2">
+        <Label htmlFor="instagram_handle" className="text-sm font-semibold uppercase tracking-wide text-[#002147]/70">
+          Instagram account @
+        </Label>
+        <Input
+          id="instagram_handle"
+          name="instagram_handle"
+          placeholder="@username"
+          value={instagramHandle}
+          onChange={(e) => setInstagramHandle(e.target.value)}
+          className={inputStyles}
         />
       </div>
       

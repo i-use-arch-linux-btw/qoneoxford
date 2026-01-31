@@ -22,6 +22,7 @@ export interface Database {
           video_clip_url: string | null;
           other_info: string | null;
           involvements: string | null;
+          instagram_handle: string | null;
           created_at: string;
           approved: boolean;
           user_id: string | null;
@@ -38,6 +39,7 @@ export interface Database {
           video_clip_url?: string | null;
           other_info?: string | null;
           involvements?: string | null;
+          instagram_handle?: string | null;
           created_at?: string;
           approved?: boolean;
           user_id?: string | null;

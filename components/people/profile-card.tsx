@@ -41,6 +41,17 @@ export function ProfileCard({ profile }: { profile: Profile }) {
             &ldquo;{profile.one_thing}&rdquo;
           </p>
         )}
+        {profile.instagram_handle && (
+          <a
+            href={`https://www.instagram.com/${profile.instagram_handle}/`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="mt-2 inline-block text-xs text-[#002147]/70 underline transition-colors hover:text-[#002147]"
+          >
+            @{profile.instagram_handle}
+          </a>
+        )}
       </div>
     </Link>
   );

@@ -31,6 +31,8 @@ export async function addProfile(
   const oneThing = formData.get("one_thing") as string | null;
   const otherInfo = (formData.get("other_info") as string | null)?.trim() || null;
   const involvements = (formData.get("involvements") as string | null)?.trim() || null;
+  const instagramHandleRaw = (formData.get("instagram_handle") as string | null)?.trim() || "";
+  const instagramHandle = instagramHandleRaw ? instagramHandleRaw.replace(/^@+/, "") : null;
   const photo = formData.get("photo") as File | null;
 
   if (!name?.trim() || !college?.trim() || !subject?.trim() || !yearStr?.trim()) {
@@ -122,6 +124,7 @@ export async function addProfile(
     video_clip_url: null,
     other_info: otherInfo,
     involvements: involvements,
+    instagram_handle: instagramHandle,
     approved: false, // Requires moderation before appearing publicly
     user_id: user.id, // Link profile to authenticated user (enforces one submission per account)
   };
