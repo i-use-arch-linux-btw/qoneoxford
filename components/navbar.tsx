@@ -10,16 +10,16 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/s
 import { Menu, LogOut, X } from "lucide-react";
 
 const leftLinks = [
-  { href: "/people", label: "Community" },
-  { href: "/about", label: "About" },
   { href: "/manifesto", label: "Manifesto" },
+  { href: "/about", label: "About" },
+  { href: "/people", label: "Community" },
   { href: "/videos", label: "Videos" },
 ];
 
 const rightLinks = [
-  { href: "/listen", label: "Listen" },
-  { href: "/events", label: "Events" },
   { href: "/vote", label: "Vote" },
+  { href: "/events", label: "Events" },
+  { href: "/listen", label: "Listen" },
   { href: "/newsletter", label: "Newsletter" },
 ];
 
