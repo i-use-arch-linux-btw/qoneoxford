@@ -133,7 +133,7 @@ export default async function ProfilePage({ params }: Props) {
                     rel="noopener noreferrer"
                     className="text-lg text-[#002147] underline transition-colors hover:text-[#E2C044]"
                   >
-                    @{profile.instagram_handle}
+                    {profile.instagram_handle}
                   </a>
                 </div>
               )}

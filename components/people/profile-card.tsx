@@ -49,7 +49,7 @@ export function ProfileCard({ profile }: { profile: Profile }) {
             onClick={(e) => e.stopPropagation()}
             className="mt-2 inline-block text-xs text-[#002147]/70 underline transition-colors hover:text-[#002147]"
           >
-            @{profile.instagram_handle}
+            {profile.instagram_handle}
           </a>
         )}
       </div>

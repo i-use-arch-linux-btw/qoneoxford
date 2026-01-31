@@ -18,6 +18,10 @@ import { addProfile } from "@/lib/features/people/actions";
 
 const STORAGE_KEY = "oneoxford-add-voice-draft";
 
+function normalizeInstagramHandle(value: string): string {
+  return value.replace(/@/g, "").replace(/\s/g, "").trim();
+}
+
 const YEAR_OPTIONS = [
   "Bachelor's 1st Year",
   "Bachelor's 2nd Year",
@@ -87,7 +91,7 @@ export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; i
         if (draft.one_thing) setOneThing(draft.one_thing);
         if (draft.involvements) setInvolvements(draft.involvements);
         if (draft.other_info) setOtherInfo(draft.other_info);
-        if (draft.instagram_handle) setInstagramHandle(draft.instagram_handle);
+        if (draft.instagram_handle) setInstagramHandle(normalizeInstagramHandle(draft.instagram_handle));
         // Clear after restoring so it doesn't persist forever
         sessionStorage.removeItem(STORAGE_KEY);
       }
@@ -278,9 +282,9 @@ export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; i
         <Input
           id="instagram_handle"
           name="instagram_handle"
-          placeholder="@username"
+          placeholder="username"
           value={instagramHandle}
-          onChange={(e) => setInstagramHandle(e.target.value)}
+          onChange={(e) => setInstagramHandle(normalizeInstagramHandle(e.target.value))}
           className={inputStyles}
         />
       </div>

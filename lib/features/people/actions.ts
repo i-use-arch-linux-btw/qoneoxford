@@ -32,7 +32,9 @@ export async function addProfile(
   const otherInfo = (formData.get("other_info") as string | null)?.trim() || null;
   const involvements = (formData.get("involvements") as string | null)?.trim() || null;
   const instagramHandleRaw = (formData.get("instagram_handle") as string | null)?.trim() || "";
-  const instagramHandle = instagramHandleRaw ? instagramHandleRaw.replace(/^@+/, "") : null;
+  const instagramHandle = instagramHandleRaw
+    ? instagramHandleRaw.replace(/@/g, "").replace(/\s/g, "").trim() || null
+    : null;
   const photo = formData.get("photo") as File | null;
 
   if (!name?.trim() || !college?.trim() || !subject?.trim() || !yearStr?.trim()) {
