@@ -1,37 +1,122 @@
-import { getTimestamps, getVideoIds } from "@/lib/features/videos";
+import {
+  VideoCarousel,
+  TikTokGallery,
+  type FeaturedVideo,
+  type TikTokVideo,
+} from "@/components/videos";
 
 export const metadata = {
   title: "Videos | #OneOxford",
-  description: "My story and the #OneOxford community video.",
+  description: "Watch team videos and community content from the #OneOxford campaign.",
 };
 
-function YouTubeEmbed({ videoId }: { videoId: string }) {
-  return (
-    <div className="aspect-video w-full overflow-hidden rounded-lg border border-[#002147]/10 bg-[#002147]/5">
-      <iframe
-        title="YouTube video"
-        src={`https://www.youtube.com/embed/${videoId}`}
-        className="size-full"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
-    </div>
-  );
-}
+// Placeholder data for featured team videos (carousel)
+const featuredVideos: FeaturedVideo[] = [
+  {
+    id: "1",
+    title: "My Story: Why I'm Running",
+    thumbnail: null,
+    videoUrl: null,
+    duration: "3:45",
+  },
+  {
+    id: "2",
+    title: "Community Voices: 50+ Stories",
+    thumbnail: null,
+    videoUrl: null,
+    duration: "8:22",
+  },
+  {
+    id: "3",
+    title: "The Manifesto Explained",
+    thumbnail: null,
+    videoUrl: null,
+    duration: "5:17",
+  },
+  {
+    id: "4",
+    title: "Behind the Campaign",
+    thumbnail: null,
+    videoUrl: null,
+    duration: "4:33",
+  },
+];
 
-function VideoPlaceholder({ label }: { label: string }) {
-  return (
-    <div className="flex aspect-video w-full flex-col items-center justify-center rounded-lg border border-dashed border-[#002147]/20 bg-[#002147]/5 p-6 text-center">
-      <p className="text-base font-medium text-[#002147]/60">{label}</p>
-      <p className="mt-2 text-sm text-[#002147]/40">Video coming soon</p>
-    </div>
-  );
-}
+// Placeholder data for TikTok-style short videos
+const tiktokVideos: TikTokVideo[] = [
+  {
+    id: "t1",
+    thumbnail: null,
+    videoUrl: null,
+    title: "POV: You're studying at the Rad Cam at 2am",
+    placeholderStyle: 0,
+  },
+  {
+    id: "t2",
+    thumbnail: null,
+    videoUrl: null,
+    title: "When your tutor says 'interesting point'",
+    placeholderStyle: 3,
+  },
+  {
+    id: "t3",
+    thumbnail: null,
+    videoUrl: null,
+    title: "Oxford college tier list (controversial)",
+    placeholderStyle: 6,
+  },
+  {
+    id: "t4",
+    thumbnail: null,
+    videoUrl: null,
+    title: "Things freshers need to know pt.1",
+    placeholderStyle: 1,
+  },
+  {
+    id: "t5",
+    thumbnail: null,
+    videoUrl: null,
+    title: "A day in the life at Brasenose",
+    placeholderStyle: 4,
+  },
+  {
+    id: "t6",
+    thumbnail: null,
+    videoUrl: null,
+    title: "Rowing practice at 5am (we're fine)",
+    placeholderStyle: 7,
+  },
+  {
+    id: "t7",
+    thumbnail: null,
+    videoUrl: null,
+    title: "The queue at Pret when everyone has lectures",
+    placeholderStyle: 2,
+  },
+  {
+    id: "t8",
+    thumbnail: null,
+    videoUrl: null,
+    title: "What your Oxford college says about you",
+    placeholderStyle: 5,
+  },
+  {
+    id: "t9",
+    thumbnail: null,
+    videoUrl: null,
+    title: "Formal hall outfits check",
+    placeholderStyle: 8,
+  },
+  {
+    id: "t10",
+    thumbnail: null,
+    videoUrl: null,
+    title: "When someone asks what you're doing after graduation",
+    placeholderStyle: 9,
+  },
+];
 
 export default function VideosPage() {
-  const timestamps = getTimestamps();
-  const { storyId, communityId } = getVideoIds();
-
   return (
     <div className="min-h-screen bg-[#FAFAFA]">
       {/* Hero Section */}
@@ -45,75 +130,27 @@ export default function VideosPage() {
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#E2C044]" />
       </section>
 
-      {/* My Story Section */}
-      <section className="bg-white py-20 md:py-28">
+      {/* Featured Videos Carousel Section */}
+      <section className="bg-white py-16 md:py-24">
         <div className="container mx-auto max-w-4xl px-6 md:px-12">
-          <div className="mb-8">
-            <h2 className="font-serif text-3xl font-normal tracking-tight text-[#002147] md:text-4xl">
-              My story
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-[#002147]/60 md:text-xl">
-              Personal, direct to camera — why I&apos;m running.
-            </p>
-          </div>
-          {storyId ? (
-            <YouTubeEmbed videoId={storyId} />
-          ) : (
-            <VideoPlaceholder label="My story video" />
-          )}
+          <h2 className="mb-8 font-serif text-3xl font-normal tracking-tight text-[#002147] md:text-4xl">
+            Team Videos
+          </h2>
+          <VideoCarousel videos={featuredVideos} />
         </div>
       </section>
 
-      {/* Community Video Section */}
-      <section className="bg-[#FAFAFA] py-20 md:py-28">
-        <div className="container mx-auto max-w-4xl px-6 md:px-12">
-          <div className="mb-8">
-            <h2 className="font-serif text-3xl font-normal tracking-tight text-[#002147] md:text-4xl">
-              Community video
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-[#002147]/60 md:text-xl">
-              50+ voices, each sharing their One thing.
-            </p>
-          </div>
-          {communityId ? (
-            <YouTubeEmbed videoId={communityId} />
-          ) : (
-            <VideoPlaceholder label="Community video" />
-          )}
+      {/* TikTok Gallery Section - True full width */}
+      <section className="bg-white pb-16 md:pb-24">
+        <div className="mx-auto mb-8 max-w-4xl px-6 md:px-12">
+          <h2 className="font-serif text-3xl font-normal tracking-tight text-[#002147] md:text-4xl">
+            Clips
+          </h2>
+        </div>
+        <div className="w-full">
+          <TikTokGallery videos={tiktokVideos} />
         </div>
       </section>
-
-      {/* Timestamps Section */}
-      {timestamps.length > 0 && (
-        <section className="bg-white py-20 md:py-28">
-          <div className="container mx-auto max-w-4xl px-6 md:px-12">
-            <div className="mb-10">
-              <h2 className="font-serif text-3xl font-normal tracking-tight text-[#002147] md:text-4xl">
-                Your moment
-              </h2>
-              <p className="mt-4 text-lg leading-relaxed text-[#002147]/60 md:text-xl">
-                Find your clip to share.
-              </p>
-            </div>
-            <div className="space-y-4">
-              {timestamps.map((t, i) => (
-                <div
-                  key={i}
-                  className="flex items-center justify-between border-b border-[#002147]/10 pb-4 last:border-b-0"
-                >
-                  <div>
-                    <p className="text-lg font-medium text-[#002147]">{t.name}</p>
-                    <p className="text-sm text-[#002147]/50">{t.college}</p>
-                  </div>
-                  <span className="rounded-full bg-[#E2C044]/20 px-4 py-2 font-mono text-sm font-semibold text-[#002147]">
-                    {t.timestamp}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
     </div>
   );
 }
