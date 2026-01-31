@@ -35,7 +35,7 @@ const caveat = Caveat({
 
 export const metadata: Metadata = {
   title: "#OneOxford | David Quan · Oxford Student Union",
-  description: "One Oxford — one community, one standard, one voice. David Quan for Oxford SU.",
+  description: "One Oxford — One community, One standard, One voice. David Quan for Oxford SU.",
 };
 
 export default function RootLayout({

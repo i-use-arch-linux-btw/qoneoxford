@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { getProfileBySlug } from "@/lib/features/people";
 import { ShareButton } from "@/components/share-button";
+import { PlaceholderImage } from "@/components/placeholder-image";
 
 export const dynamic = "force-dynamic";
 
@@ -51,7 +52,7 @@ export default async function ProfilePage({ params }: Props) {
             {profile.name}
           </h1>
           <p className="mt-6 text-lg text-white/60 md:text-xl">
-            {profile.college} · {profile.subject}
+            {profile.college} · {profile.subject} · Class of {profile.graduation_year}
           </p>
         </div>
         {/* Bottom accent line */}
@@ -64,14 +65,24 @@ export default async function ProfilePage({ params }: Props) {
           <div className="flex flex-col gap-12 md:flex-row md:gap-16">
             {/* Photo */}
             <div className="relative aspect-3/4 w-full shrink-0 overflow-hidden border border-[#002147]/10 bg-[#FAFAFA] md:w-80">
-              <Image
-                src={profile.photo_url}
-                alt={profile.name}
-                fill
-                className="object-cover"
-                priority
-                unoptimized
-              />
+              {profile.photo_url ? (
+                <Image
+                  src={profile.photo_url}
+                  alt={profile.name}
+                  fill
+                  className="object-cover"
+                  priority
+                  unoptimized
+                />
+              ) : (
+                <PlaceholderImage
+                  variant="portrait"
+                  theme="blue"
+                  pattern="circles"
+                  label={profile.name}
+                  className="h-full w-full"
+                />
+              )}
             </div>
             
             {/* Details */}
@@ -111,19 +122,12 @@ export default async function ProfilePage({ params }: Props) {
                 </div>
               )}
               
-              <div className="flex flex-wrap gap-4 pt-4">
+              <div className="pt-4">
                 <ShareButton
                   title={`${profile.name} · #OneOxford`}
                   text={profile.one_thing ?? `${profile.name} supports #OneOxford`}
                   path={`/people/${profile.slug}`}
                 />
-                <Link
-                  href="/people"
-                  className="inline-flex items-center gap-2 border border-[#002147]/20 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-[#002147] transition-colors hover:border-[#002147] hover:bg-[#002147] hover:text-white"
-                >
-                  <ArrowLeft className="size-4" />
-                  All voices
-                </Link>
               </div>
             </div>
           </div>

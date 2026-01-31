@@ -38,11 +38,13 @@ export function Footer() {
           </nav>
 
           {/* Right: Contact */}
-          <div className="text-sm">
-            <p className="text-white/70">Questions or concerns?</p>
+          <div className="text-sm max-w-[240px]">
+            <p className="text-white/70">
+              If you have any concerns about the contents of this page, please contact the Deputy Returning Officer on
+            </p>
             <a
               href="mailto:elections@oxfordsu.ox.ac.uk"
-              className="mt-1 inline-block text-white underline underline-offset-4 transition-colors hover:text-oxford-yellow"
+              className="text-white underline underline-offset-4 transition-colors hover:text-oxford-yellow whitespace-nowrap"
             >
               elections@oxfordsu.ox.ac.uk
             </a>

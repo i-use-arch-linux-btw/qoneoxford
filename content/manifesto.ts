@@ -3,7 +3,7 @@
  */
 
 export const manifestoSections = {
-  slogan: `#OneOxford starts as a question - then we build it together. I'm David Quan 权丁文, standing for President (Postgraduate) with Zagham Farhan (Undergraduate) and Henry Morris (Welfare). With them, I'm fighting for independent misconduct investigations, student food support, and hardship transparency. I'll also champion an Oxford University Ball for all, AI literacy, mobilise alumni for careers, and DPhil continuation charge equity. One conversation, coffee, and community at a time. OneOxford.uk`,
+  slogan: `#OneOxford starts as a question - then we build it together. I'm David Quan 权丁文, standing for President (Postgraduate) with Zagham Farhan (Undergraduate) and Henry Morris (Welfare). With them, I'm fighting for independent misconduct investigations, student food support, and hardship transparency. I'll also champion an Oxford University Ball for all, AI literacy, mobilise alumni for careers, and DPhil continuation charge equity. One conversation, One coffee, and One community at a time. OneOxford.uk`,
 
   background: {
     title: "What background, skills and experience will you bring to this role?",
@@ -55,5 +55,5 @@ export const manifestoSections = {
 
   delivery: `Delivery demands dedication. My podcast community reached 25,000+ listeners across 100+ conversations, available publicly, without institutional funding. I contributed to an Oxbridge college alumni campaign, raising £145,000 with record 92% pledge fulfilment, and co-created the Oxbridge AI Challenge. At Goldman Sachs, I was selected onto the Analyst & Associate Council. I studied Education across Cambridge and Oxford.`,
 
-  callToAction: `Join our OneOxford.uk movement - One conversation, coffee, commitment, and community at a time!`,
+  callToAction: `Join our OneOxford.uk movement - One conversation, One coffee, One commitment, and One community at a time!`,
 } as const;

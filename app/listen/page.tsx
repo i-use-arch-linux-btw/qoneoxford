@@ -31,7 +31,7 @@ export default async function ListenPage() {
             {/* Intro */}
             <div>
               <p className="text-lg leading-relaxed md:text-xl">
-                The #OneOxford campaign started with a simple question: &ldquo;What&apos;s your one thing you&apos;d change about Oxford?&rdquo; These conversations became Coffee&apos;s On Me — a podcast where we explore the stories, struggles, and hopes of students across Oxbridge.
+                The #OneOxford campaign started with a simple question: &ldquo;What&apos;s your One thing you&apos;d change about Oxford?&rdquo; These conversations became Coffee&apos;s On Me — a podcast where we explore the stories, struggles, and hopes of students across Oxbridge.
               </p>
             </div>
 

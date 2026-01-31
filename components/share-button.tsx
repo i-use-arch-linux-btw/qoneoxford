@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Share2 } from "lucide-react";
 
 type Props = { title: string; text: string; path: string };
@@ -27,9 +26,12 @@ export function ShareButton({ title, text, path }: Props) {
   };
 
   return (
-    <Button variant="outline" size="sm" onClick={handleShare} className="gap-2">
+    <button
+      onClick={handleShare}
+      className="inline-flex items-center gap-2 border border-[#002147]/20 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-[#002147] transition-colors hover:border-[#002147] hover:bg-[#002147] hover:text-white"
+    >
       <Share2 className="size-4" />
       Share
-    </Button>
+    </button>
   );
 }

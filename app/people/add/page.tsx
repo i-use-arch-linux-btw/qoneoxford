@@ -2,13 +2,19 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { AddProfileForm } from "./form";
 import { COLLEGES } from "@/lib/features/people";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata = {
   title: "Add Your Voice | #OneOxford",
-  description: "Join the #OneOxford community. Share your one thing you'd change about Oxford.",
+  description: "Join the #OneOxford community. Share your One thing you'd change about Oxford.",
 };
 
-export default function AddYourselfPage() {
+export default async function AddYourselfPage() {
+  const supabase = await createClient();
+  const { data: { user } } = supabase 
+    ? await supabase.auth.getUser() 
+    : { data: { user: null } };
+
   return (
     <div className="min-h-screen bg-[#FAFAFA]">
       {/* Hero Section */}
@@ -32,7 +38,7 @@ export default function AddYourselfPage() {
       {/* Form Section */}
       <section className="bg-white py-20 md:py-28">
         <div className="container mx-auto max-w-xl px-6 md:px-12">
-          <AddProfileForm colleges={COLLEGES} />
+          <AddProfileForm colleges={COLLEGES} isSignedIn={!!user} />
           
           <p className="mt-12 text-center text-sm text-[#002147]/60">
             <Link href="/people" className="underline transition-colors hover:text-[#002147] hover:no-underline">
