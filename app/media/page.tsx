@@ -94,9 +94,9 @@ export default async function MediaPage() {
                         month: "short",
                         year: "numeric",
                       })}
-                      {"source" in item && item.source && (
-                        <span className="ml-2 text-[#002147]/40">• {item.source}</span>
-                      )}
+                      {"source" in item && item.source ? (
+                        <span className="ml-2 text-[#002147]/40">• {item.source as string}</span>
+                      ) : null}
                     </div>
                   )}
 
