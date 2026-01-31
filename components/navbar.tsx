@@ -10,17 +10,19 @@ import { Button } from "@/components/ui/button";
 import { Menu, LogOut, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+/** Left nav: order of importance Manifesto, About, Community, Videos */
 const navLinksLeft = [
-  { href: "/people", label: "Community" },
-  { href: "/about", label: "About" },
   { href: "/manifesto", label: "Manifesto" },
+  { href: "/about", label: "About" },
+  { href: "/people", label: "Community" },
   { href: "/videos", label: "Videos" },
 ];
 
+/** Right nav: order of importance Vote, Events, Listen, Newsletter (least important, dropped first when narrow) */
 const navLinksRight = [
-  { href: "/listen", label: "Listen" },
-  { href: "/events", label: "Events" },
   { href: "/vote", label: "Vote" },
+  { href: "/events", label: "Events" },
+  { href: "/listen", label: "Listen" },
   { href: "/newsletter", label: "Newsletter" },
 ];
 
@@ -51,8 +53,8 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container grid h-14 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center px-4">
-        <nav className="hidden min-w-0 md:flex md:flex-1 md:items-center md:gap-6">
+      <div className="mx-auto grid h-14 w-full max-w-7xl grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center px-4">
+        <nav className="hidden min-w-0 lg:flex lg:flex-1 lg:items-center lg:gap-6">
           <Button asChild size="sm" variant="default" className="self-center">
             <Link href="/people/add">Add your voice</Link>
           </Button>
@@ -88,40 +90,43 @@ export function Navbar() {
         </Link>
 
         <div className="flex min-w-0 flex-1 items-center justify-end gap-6">
-          <nav className="hidden md:flex md:items-center md:gap-6">
+          <nav className="hidden lg:flex lg:items-center lg:gap-6">
             {navLinksRight.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                className={cn(
+                  "text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
+                  link.href === "/newsletter" && "hidden xl:inline-block"
+                )}
               >
                 {link.label}
               </Link>
             ))}
-            {session ? (
-              <div className="flex items-center gap-2">
-                <span className="max-w-[140px] truncate text-sm text-muted-foreground" title={session.user.email ?? undefined}>
-                  {userLabel}
-                </span>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={handleSignOut}
-                  aria-label="Sign out"
-                >
-                  <LogOut className="size-4" />
-                </Button>
-              </div>
-            ) : (
-              <Button asChild size="sm" variant="outline" className="self-center">
-                <Link href="/auth/login">Sign in</Link>
-              </Button>
-            )}
           </nav>
+          {session ? (
+            <div className="flex shrink-0 items-center gap-2">
+              <span className="max-w-[140px] truncate text-sm text-muted-foreground" title={session.user.email ?? undefined}>
+                {userLabel}
+              </span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={handleSignOut}
+                aria-label="Sign out"
+              >
+                <LogOut className="size-4" />
+              </Button>
+            </div>
+          ) : (
+            <Button asChild size="sm" variant="outline" className="shrink-0 self-center">
+              <Link href="/auth/login">Sign in</Link>
+            </Button>
+          )}
           <Drawer.Root open={open} onOpenChange={setOpen} direction="right">
             <Drawer.Trigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Open menu">
+              <Button variant="ghost" size="icon" aria-label="Open menu" className="lg:hidden">
                 <Menu className="size-5" />
               </Button>
             </Drawer.Trigger>
@@ -141,6 +146,11 @@ export function Navbar() {
                     </Button>
                   </Drawer.Close>
                   <nav className="flex flex-col gap-4">
+                    <Button asChild>
+                      <Link href="/people/add" onClick={() => setOpen(false)}>
+                        Add your voice
+                      </Link>
+                    </Button>
                     {[...navLinksLeft, ...navLinksRight].map((link) => (
                       <Link
                         key={link.href}
@@ -151,11 +161,6 @@ export function Navbar() {
                         {link.label}
                       </Link>
                     ))}
-                    <Button asChild>
-                      <Link href="/people/add" onClick={() => setOpen(false)}>
-                        Add your voice
-                      </Link>
-                    </Button>
                     {session ? (
                       <>
                         <span className="truncate text-sm text-muted-foreground" title={session.user.email ?? undefined}>
