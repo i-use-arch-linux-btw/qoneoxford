@@ -17,9 +17,6 @@ export default function EventsPage() {
           <h1 className="font-serif text-5xl leading-[0.95] tracking-tight text-white md:text-7xl lg:text-8xl">
             Events
           </h1>
-          <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/60 md:text-xl">
-            Join us in person — #OneOxford means being part of something real.
-          </p>
         </div>
         {/* Bottom accent line */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#E2C044]" />
