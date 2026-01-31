@@ -48,7 +48,7 @@ export function TikTokGallery({ videos }: TikTokGalleryProps) {
   return (
     <>
       {/* Gallery Grid - Full width with small gaps */}
-      <div className="grid grid-cols-5 gap-1 md:grid-cols-8 lg:grid-cols-10">
+      <div className="grid grid-cols-3 gap-1 md:grid-cols-8 lg:grid-cols-10">
         {videos.map((video) => (
           <button
             key={video.id}

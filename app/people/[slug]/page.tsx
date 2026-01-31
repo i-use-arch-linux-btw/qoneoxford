@@ -52,7 +52,7 @@ export default async function ProfilePage({ params }: Props) {
             {profile.name}
           </h1>
           <p className="mt-6 text-lg text-white/60 md:text-xl">
-            {profile.college} · {profile.subject} · Class of {profile.graduation_year}
+            {profile.college} · {profile.subject} · {profile.year}
           </p>
         </div>
         {/* Bottom accent line */}
