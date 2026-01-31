@@ -7,7 +7,7 @@ export const metadata = {
 
 function YouTubeEmbed({ videoId }: { videoId: string }) {
   return (
-    <div className="aspect-video w-full max-w-xl overflow-hidden rounded-lg border border-border bg-muted">
+    <div className="aspect-video w-full overflow-hidden rounded-lg border border-[#002147]/10 bg-[#002147]/5">
       <iframe
         title="YouTube video"
         src={`https://www.youtube.com/embed/${videoId}`}
@@ -21,9 +21,9 @@ function YouTubeEmbed({ videoId }: { videoId: string }) {
 
 function VideoPlaceholder({ label }: { label: string }) {
   return (
-    <div className="flex aspect-video w-full max-w-xl flex-col items-center justify-center rounded-lg border border-dashed border-border bg-muted/50 p-6 text-center">
-      <p className="text-sm font-medium text-muted-foreground">{label}</p>
-      <p className="mt-1 text-xs text-muted-foreground">Video coming soon</p>
+    <div className="flex aspect-video w-full flex-col items-center justify-center rounded-lg border border-dashed border-[#002147]/20 bg-[#002147]/5 p-6 text-center">
+      <p className="text-base font-medium text-[#002147]/60">{label}</p>
+      <p className="mt-2 text-sm text-[#002147]/40">Video coming soon</p>
     </div>
   );
 }
@@ -33,18 +33,32 @@ export default function VideosPage() {
   const { storyId, communityId } = getVideoIds();
 
   return (
-    <div className="container mx-auto max-w-2xl px-4 py-8">
-      <h1 className="text-3xl font-bold text-foreground">Videos</h1>
-      <p className="mt-2 text-muted-foreground">
-        My story and the community video — find your moment.
-      </p>
+    <div className="min-h-screen bg-[#FAFAFA]">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-[#002147] py-16 md:py-20 lg:py-24">
+        <div className="container relative mx-auto max-w-7xl px-6 md:px-12">
+          <h1 className="font-serif text-5xl leading-[0.95] tracking-tight text-white md:text-7xl lg:text-8xl">
+            Videos
+          </h1>
+          <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/60 md:text-xl">
+            My story and the community video — find your moment.
+          </p>
+        </div>
+        {/* Bottom accent line */}
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#E2C044]" />
+      </section>
 
-      <section className="mt-8">
-        <h2 className="text-xl font-semibold text-foreground">My story</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Personal, direct to camera — why I&apos;m running.
-        </p>
-        <div className="mt-4">
+      {/* My Story Section */}
+      <section className="bg-white py-20 md:py-28">
+        <div className="container mx-auto max-w-4xl px-6 md:px-12">
+          <div className="mb-8">
+            <h2 className="font-serif text-3xl font-normal tracking-tight text-[#002147] md:text-4xl">
+              My story
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-[#002147]/60 md:text-xl">
+              Personal, direct to camera — why I&apos;m running.
+            </p>
+          </div>
           {storyId ? (
             <YouTubeEmbed videoId={storyId} />
           ) : (
@@ -53,32 +67,56 @@ export default function VideosPage() {
         </div>
       </section>
 
-      <section className="mt-10">
-        <h2 className="text-xl font-semibold text-foreground">Community video</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          50+ voices, each sharing their one thing.
-        </p>
-        <div className="mt-4">
+      {/* Community Video Section */}
+      <section className="bg-[#FAFAFA] py-20 md:py-28">
+        <div className="container mx-auto max-w-4xl px-6 md:px-12">
+          <div className="mb-8">
+            <h2 className="font-serif text-3xl font-normal tracking-tight text-[#002147] md:text-4xl">
+              Community video
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-[#002147]/60 md:text-xl">
+              50+ voices, each sharing their one thing.
+            </p>
+          </div>
           {communityId ? (
             <YouTubeEmbed videoId={communityId} />
           ) : (
             <VideoPlaceholder label="Community video" />
           )}
         </div>
-        <div className="mt-6">
-          <h3 className="text-sm font-semibold text-foreground">Your moment — timestamps</h3>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Find your clip to share.
-          </p>
-          <ul className="mt-3 space-y-1 text-sm text-muted-foreground">
-            {timestamps.map((t, i) => (
-              <li key={i}>
-                {t.name}, {t.college} — {t.timestamp}
-              </li>
-            ))}
-          </ul>
-        </div>
       </section>
+
+      {/* Timestamps Section */}
+      {timestamps.length > 0 && (
+        <section className="bg-white py-20 md:py-28">
+          <div className="container mx-auto max-w-4xl px-6 md:px-12">
+            <div className="mb-10">
+              <h2 className="font-serif text-3xl font-normal tracking-tight text-[#002147] md:text-4xl">
+                Your moment
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed text-[#002147]/60 md:text-xl">
+                Find your clip to share.
+              </p>
+            </div>
+            <div className="space-y-4">
+              {timestamps.map((t, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between border-b border-[#002147]/10 pb-4 last:border-b-0"
+                >
+                  <div>
+                    <p className="text-lg font-medium text-[#002147]">{t.name}</p>
+                    <p className="text-sm text-[#002147]/50">{t.college}</p>
+                  </div>
+                  <span className="rounded-full bg-[#E2C044]/20 px-4 py-2 font-mono text-sm font-semibold text-[#002147]">
+                    {t.timestamp}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

@@ -2,8 +2,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 import { getProfileBySlug } from "@/lib/features/people";
-import { Button } from "@/components/ui/button";
 import { ShareButton } from "@/components/share-button";
 
 export const dynamic = "force-dynamic";
@@ -36,52 +36,99 @@ export default async function ProfilePage({ params }: Props) {
   if (!profile) notFound();
 
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-8">
-      <div className="mx-auto max-w-2xl">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-          <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden rounded-lg bg-muted sm:w-64">
-            <Image
-              src={profile.photo_url}
-              alt={profile.name}
-              fill
-              className="object-cover"
-              priority
-              unoptimized
-            />
-          </div>
-          <div className="flex-1">
-            <h1 className="text-2xl font-bold text-foreground">{profile.name}</h1>
-            <p className="text-muted-foreground">{profile.college}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{profile.subject}</p>
-            {profile.one_thing && (
-              <blockquote className="mt-4 border-l-4 border-primary pl-4 text-foreground">
-                &ldquo;{profile.one_thing}&rdquo;
-              </blockquote>
-            )}
-            {profile.involvements && (
-              <p className="mt-4 text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">Involvements / community:</span>{" "}
-                {profile.involvements}
-              </p>
-            )}
-            {profile.other_info && (
-              <p className="mt-3 text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">More:</span> {profile.other_info}
-              </p>
-            )}
-            <div className="mt-6 flex flex-wrap gap-3">
-              <ShareButton
-                title={`${profile.name} · #OneOxford`}
-                text={profile.one_thing ?? `${profile.name} supports #OneOxford`}
-                path={`/people/${profile.slug}`}
+    <div className="min-h-screen bg-[#FAFAFA]">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-[#002147] py-16 md:py-20 lg:py-24">
+        <div className="container relative mx-auto max-w-7xl px-6 md:px-12">
+          <Link
+            href="/people"
+            className="group mb-8 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wide text-white/60 transition-colors hover:text-white"
+          >
+            <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
+            Back to community
+          </Link>
+          <h1 className="font-serif text-5xl leading-[0.95] tracking-tight text-white md:text-7xl lg:text-8xl">
+            {profile.name}
+          </h1>
+          <p className="mt-6 text-lg text-white/60 md:text-xl">
+            {profile.college} · {profile.subject}
+          </p>
+        </div>
+        {/* Bottom accent line */}
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#E2C044]" />
+      </section>
+
+      {/* Content Section */}
+      <section className="bg-white py-20 md:py-28">
+        <div className="container mx-auto max-w-5xl px-6 md:px-12">
+          <div className="flex flex-col gap-12 md:flex-row md:gap-16">
+            {/* Photo */}
+            <div className="relative aspect-3/4 w-full shrink-0 overflow-hidden border border-[#002147]/10 bg-[#FAFAFA] md:w-80">
+              <Image
+                src={profile.photo_url}
+                alt={profile.name}
+                fill
+                className="object-cover"
+                priority
+                unoptimized
               />
-              <Button asChild variant="outline" size="sm">
-                <Link href="/people">Back to community</Link>
-              </Button>
+            </div>
+            
+            {/* Details */}
+            <div className="flex-1 space-y-8">
+              {profile.one_thing && (
+                <div>
+                  <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[#002147]/50">
+                    One thing I&apos;d change
+                  </p>
+                  <blockquote className="border-l-4 border-[#E2C044] pl-6">
+                    <p className="font-serif text-2xl leading-snug text-[#002147] md:text-3xl">
+                      &ldquo;{profile.one_thing}&rdquo;
+                    </p>
+                  </blockquote>
+                </div>
+              )}
+              
+              {profile.involvements && (
+                <div>
+                  <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[#002147]/50">
+                    Involvements & Community
+                  </p>
+                  <p className="text-lg leading-relaxed text-[#002147]">
+                    {profile.involvements}
+                  </p>
+                </div>
+              )}
+              
+              {profile.other_info && (
+                <div>
+                  <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[#002147]/50">
+                    More
+                  </p>
+                  <p className="text-lg leading-relaxed text-[#002147]">
+                    {profile.other_info}
+                  </p>
+                </div>
+              )}
+              
+              <div className="flex flex-wrap gap-4 pt-4">
+                <ShareButton
+                  title={`${profile.name} · #OneOxford`}
+                  text={profile.one_thing ?? `${profile.name} supports #OneOxford`}
+                  path={`/people/${profile.slug}`}
+                />
+                <Link
+                  href="/people"
+                  className="inline-flex items-center gap-2 border border-[#002147]/20 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-[#002147] transition-colors hover:border-[#002147] hover:bg-[#002147] hover:text-white"
+                >
+                  <ArrowLeft className="size-4" />
+                  All voices
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
