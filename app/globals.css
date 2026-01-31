@@ -203,3 +203,7 @@ body {
 .font-instrument-serif {
   font-family: var(--font-instrument-serif), Georgia, serif;
 }
+
+.font-handwritten {
+  font-family: var(--font-handwritten), cursive;
+}

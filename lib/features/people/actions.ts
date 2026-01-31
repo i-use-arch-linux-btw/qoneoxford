@@ -21,8 +21,8 @@ export async function addProfile(
   const involvements = (formData.get("involvements") as string | null)?.trim() || null;
   const photo = formData.get("photo") as File | null;
 
-  if (!name?.trim() || !college?.trim() || !subject?.trim() || !oneThing?.trim() || !photo?.size) {
-    return { error: "Please fill all fields and upload a photo." };
+  if (!name?.trim() || !college?.trim() || !subject?.trim()) {
+    return { error: "Please fill in name, college, and subject." };
   }
 
   const supabase = getServiceRoleClient();
@@ -40,33 +40,40 @@ export async function addProfile(
     slug = `${slug}-${Date.now().toString(36)}`;
   }
 
-  const ext = photo.name.split(".").pop() || "jpg";
-  const path = `${slug}.${ext}`;
+  let photoUrl: string | null = null;
 
-  const arrayBuffer = await photo.arrayBuffer();
-  const { error: uploadError } = await supabase.storage
-    .from(PROFILE_PHOTOS_BUCKET)
-    .upload(path, arrayBuffer, {
-      contentType: photo.type || "image/jpeg",
-      upsert: true,
-    });
+  // Only upload photo if one was provided
+  if (photo?.size) {
+    const ext = photo.name.split(".").pop() || "jpg";
+    const path = `${slug}.${ext}`;
 
-  if (uploadError) {
-    return { error: "Photo upload failed. Please try again." };
+    const arrayBuffer = await photo.arrayBuffer();
+    const { error: uploadError } = await supabase.storage
+      .from(PROFILE_PHOTOS_BUCKET)
+      .upload(path, arrayBuffer, {
+        contentType: photo.type || "image/jpeg",
+        upsert: true,
+      });
+
+    if (uploadError) {
+      return { error: "Photo upload failed. Please try again." };
+    }
+
+    const { data: urlData } = supabase.storage
+      .from(PROFILE_PHOTOS_BUCKET)
+      .getPublicUrl(path);
+    photoUrl = urlData.publicUrl;
   }
-
-  const { data: urlData } = supabase.storage
-    .from(PROFILE_PHOTOS_BUCKET)
-    .getPublicUrl(path);
-  const photoUrl = urlData.publicUrl;
 
   const row: ProfileInsert = {
     slug,
     name: name.trim(),
     college: college.trim(),
     subject: subject.trim(),
-    one_thing: oneThing.trim(),
-    photo_url: photoUrl,
+    // TODO: Make nullable in DB and use `oneThing?.trim() || null` instead
+    one_thing: oneThing?.trim() || "",
+    // TODO: Make nullable in DB and use `photoUrl` instead
+    photo_url: photoUrl || "",
     video_clip_url: null,
     other_info: otherInfo,
     involvements: involvements,

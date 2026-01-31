@@ -11,7 +11,6 @@ import { Menu, LogOut, X } from "lucide-react";
 
 const leftLinks = [
   { href: "/manifesto", label: "Manifesto" },
-  { href: "/about", label: "About" },
   { href: "/people", label: "Community" },
   { href: "/videos", label: "Videos" },
 ];
@@ -19,8 +18,7 @@ const leftLinks = [
 const rightLinks = [
   { href: "/vote", label: "Vote" },
   { href: "/events", label: "Events" },
-  { href: "/listen", label: "Listen" },
-  { href: "/newsletter", label: "Newsletter" },
+  { href: "/media", label: "Media" },
 ];
 
 const allLinks = [...leftLinks, ...rightLinks];

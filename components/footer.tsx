@@ -26,9 +26,6 @@ export function Footer() {
             <Link href="/people" className="text-white/80 transition-colors hover:text-white">
               Community
             </Link>
-            <Link href="/about" className="text-white/80 transition-colors hover:text-white">
-              About
-            </Link>
             <Link href="/manifesto" className="text-white/80 transition-colors hover:text-white">
               Manifesto
             </Link>

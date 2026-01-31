@@ -24,9 +24,6 @@ export default function AddYourselfPage() {
           <h1 className="font-serif text-5xl leading-[0.95] tracking-tight text-white md:text-7xl lg:text-8xl">
             Add your voice
           </h1>
-          <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/60 md:text-xl">
-            Join the #OneOxford community. Share your one thing you&apos;d change about Oxford.
-          </p>
         </div>
         {/* Bottom accent line */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#E2C044]" />

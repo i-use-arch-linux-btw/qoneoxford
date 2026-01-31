@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import {
   getProfiles,
   PAGE_SIZE,
@@ -41,12 +41,9 @@ export default async function PeoplePage({
           <h1 className="font-serif text-5xl leading-[0.95] tracking-tight text-white md:text-7xl lg:text-8xl">
             Community
           </h1>
-          <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/60 md:text-xl">
-            Meet the people behind #OneOxford — the voices shaping our movement.
-          </p>
           
-          {/* CTA Button */}
-          <div className="mt-10">
+          {/* CTA Buttons */}
+          <div className="mt-10 flex flex-wrap gap-4">
             <Link
               href="/people/add"
               className="group inline-flex items-center gap-3 bg-[#E2C044] px-8 py-5 text-base font-semibold uppercase tracking-wide text-[#002147] transition-colors hover:bg-white"
@@ -54,6 +51,15 @@ export default async function PeoplePage({
               Add your voice
               <ArrowRight className="size-5 transition-transform group-hover:translate-x-2" />
             </Link>
+            <a
+              href="https://chat.whatsapp.com/GA7EoFbX5ri0bc1oM5TNwX"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-3 border border-white/40 px-8 py-5 text-base font-semibold uppercase tracking-wide text-white transition-colors hover:border-[#25D366] hover:bg-[#25D366] hover:text-white"
+            >
+              Join WhatsApp
+              <ArrowUpRight className="size-5" />
+            </a>
           </div>
         </div>
         {/* Bottom accent line */}
