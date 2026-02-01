@@ -21,13 +21,15 @@ export default async function PeoplePage({
 }: {
   searchParams: Promise<{ college?: string; page?: string }>;
 }) {
-  const params = await searchParams;
-  const collegeFilter = params.college ?? "";
-  const page = Math.max(1, parseInt(params.page ?? "1", 10));
+  let collegeFilter = "";
+  let page = 1;
+  let profiles: Awaited<ReturnType<typeof getProfiles>>["profiles"] = [];
+  let totalCount = 0;
 
-  let profiles: Awaited<ReturnType<typeof getProfiles>>["profiles"];
-  let totalCount: number;
   try {
+    const params = await searchParams;
+    collegeFilter = params.college ?? "";
+    page = Math.max(1, parseInt(params.page ?? "1", 10));
     const result = await getProfiles({
       college: collegeFilter || undefined,
       page,
@@ -36,8 +38,6 @@ export default async function PeoplePage({
     totalCount = result.totalCount;
   } catch (err) {
     console.error("[people] page data error:", err);
-    profiles = [];
-    totalCount = 0;
   }
 
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
