@@ -25,10 +25,20 @@ export default async function PeoplePage({
   const collegeFilter = params.college ?? "";
   const page = Math.max(1, parseInt(params.page ?? "1", 10));
 
-  const { profiles, totalCount } = await getProfiles({
-    college: collegeFilter || undefined,
-    page,
-  });
+  let profiles: Awaited<ReturnType<typeof getProfiles>>["profiles"];
+  let totalCount: number;
+  try {
+    const result = await getProfiles({
+      college: collegeFilter || undefined,
+      page,
+    });
+    profiles = result.profiles;
+    totalCount = result.totalCount;
+  } catch (err) {
+    console.error("[people] page data error:", err);
+    profiles = [];
+    totalCount = 0;
+  }
 
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
   const hasMore = page < totalPages;
