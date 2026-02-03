@@ -4,10 +4,14 @@ import { createClient, getServiceRoleClient } from "@/lib/supabase/server";
 import type { Database } from "@/lib/supabase/types";
 import { profileSlug } from "@/lib/slug";
 import { PROFILE_PHOTOS_BUCKET } from "./constants";
+import { revalidatePath } from "next/cache";
 
 type ProfileInsert = Database["public"]["Tables"]["profiles"]["Insert"];
+type ProfileUpdate = Database["public"]["Tables"]["profiles"]["Update"];
 
 export type AddProfileState = { error?: string; success?: boolean; slug?: string };
+export type UpdateProfileState = { error?: string; success?: boolean; slug?: string };
+export type DeleteProfileState = { error?: string; success?: boolean };
 
 export async function addProfile(
   prev: AddProfileState,
@@ -35,6 +39,13 @@ export async function addProfile(
   const instagramHandle = instagramHandleRaw
     ? instagramHandleRaw.replace(/@/g, "").replace(/\s/g, "").trim() || null
     : null;
+  const linkedinUrlRaw = (formData.get("linkedin_url") as string | null)?.trim() || "";
+  // Extract username from full URL if pasted, otherwise use as-is
+  let linkedinUrl: string | null = null;
+  if (linkedinUrlRaw) {
+    const match = linkedinUrlRaw.match(/linkedin\.com\/in\/([^/?]+)/i);
+    linkedinUrl = match ? match[1].trim() : linkedinUrlRaw.replace(/\s/g, "").trim() || null;
+  }
   const photo = formData.get("photo") as File | null;
 
   if (!name?.trim() || !college?.trim() || !subject?.trim() || !yearStr?.trim()) {
@@ -127,6 +138,7 @@ export async function addProfile(
     other_info: otherInfo,
     involvements: involvements,
     instagram_handle: instagramHandle,
+    linkedin_url: linkedinUrl,
     approved: false, // Requires moderation before appearing publicly
     user_id: user.id, // Link profile to authenticated user (enforces one submission per account)
   };
@@ -141,4 +153,229 @@ export async function addProfile(
   }
 
   return { success: true, slug };
+}
+
+export async function updateProfile(
+  prev: UpdateProfileState,
+  formData: FormData
+): Promise<UpdateProfileState> {
+  // Get the current authenticated user
+  const authClient = await createClient();
+  if (!authClient) {
+    return { error: "Server configuration error. Please try again later." };
+  }
+
+  const { data: { user } } = await authClient.auth.getUser();
+  if (!user) {
+    return { error: "You must be signed in to update your profile." };
+  }
+
+  const profileId = formData.get("profile_id") as string | null;
+  const name = formData.get("name") as string | null;
+  const college = formData.get("college") as string | null;
+  const subject = formData.get("subject") as string | null;
+  const yearStr = formData.get("year") as string | null;
+  const oneThing = formData.get("one_thing") as string | null;
+  const otherInfo = (formData.get("other_info") as string | null)?.trim() || null;
+  const involvements = (formData.get("involvements") as string | null)?.trim() || null;
+  const instagramHandleRaw = (formData.get("instagram_handle") as string | null)?.trim() || "";
+  const instagramHandle = instagramHandleRaw
+    ? instagramHandleRaw.replace(/@/g, "").replace(/\s/g, "").trim() || null
+    : null;
+  const linkedinUrlRaw = (formData.get("linkedin_url") as string | null)?.trim() || "";
+  let linkedinUrl: string | null = null;
+  if (linkedinUrlRaw) {
+    const match = linkedinUrlRaw.match(/linkedin\.com\/in\/([^/?]+)/i);
+    linkedinUrl = match ? match[1].trim() : linkedinUrlRaw.replace(/\s/g, "").trim() || null;
+  }
+  const photo = formData.get("photo") as File | null;
+  const removePhoto = formData.get("remove_photo") === "true";
+
+  if (!profileId) {
+    return { error: "Profile ID is required." };
+  }
+
+  if (!name?.trim() || !college?.trim() || !subject?.trim() || !yearStr?.trim()) {
+    return { error: "Please fill in name, college, subject, and year." };
+  }
+
+  const VALID_YEAR_OPTIONS = [
+    "Bachelor's 1st Year",
+    "Bachelor's 2nd Year",
+    "Bachelor's 3rd Year",
+    "Bachelor's 4th Year",
+    "Master's",
+    "DPhil",
+    "Staff/Alumni",
+    "Other",
+  ];
+
+  if (!VALID_YEAR_OPTIONS.includes(yearStr)) {
+    return { error: "Please select a valid year of study." };
+  }
+
+  const supabase = getServiceRoleClient();
+  if (!supabase) {
+    return { error: "Server configuration error. Please try again later." };
+  }
+
+  // Verify the profile belongs to the current user
+  const { data: existingProfile, error: fetchError } = await supabase
+    .from("profiles")
+    .select("id, slug, photo_url, user_id")
+    .eq("id", profileId)
+    .single() as { data: { id: string; slug: string; photo_url: string | null; user_id: string | null } | null; error: unknown };
+
+  if (fetchError || !existingProfile) {
+    return { error: "Profile not found." };
+  }
+
+  if (existingProfile.user_id !== user.id) {
+    return { error: "You can only edit your own profile." };
+  }
+
+  let photoUrl: string | null = existingProfile.photo_url;
+
+  // Handle photo removal
+  if (removePhoto) {
+    // Delete existing photo from storage if it exists
+    if (existingProfile.photo_url) {
+      const oldPath = existingProfile.photo_url.split("/").pop();
+      if (oldPath) {
+        await supabase.storage.from(PROFILE_PHOTOS_BUCKET).remove([oldPath]);
+      }
+    }
+    photoUrl = null;
+  }
+
+  // Handle new photo upload
+  if (photo?.size && !removePhoto) {
+    const MAX_FILE_SIZE = 2 * 1024 * 1024;
+    if (photo.size > MAX_FILE_SIZE) {
+      return { error: "Photo must be under 2MB. Please choose a smaller image." };
+    }
+
+    // Delete old photo if exists
+    if (existingProfile.photo_url) {
+      const oldPath = existingProfile.photo_url.split("/").pop();
+      if (oldPath) {
+        await supabase.storage.from(PROFILE_PHOTOS_BUCKET).remove([oldPath]);
+      }
+    }
+
+    const ext = photo.name.split(".").pop() || "jpg";
+    const path = `${existingProfile.slug}.${ext}`;
+
+    const arrayBuffer = await photo.arrayBuffer();
+    const { error: uploadError } = await supabase.storage
+      .from(PROFILE_PHOTOS_BUCKET)
+      .upload(path, arrayBuffer, {
+        contentType: photo.type || "image/jpeg",
+        upsert: true,
+      });
+
+    if (uploadError) {
+      return { error: "Photo upload failed. Please try again." };
+    }
+
+    const { data: urlData } = supabase.storage
+      .from(PROFILE_PHOTOS_BUCKET)
+      .getPublicUrl(path);
+    photoUrl = urlData.publicUrl;
+  }
+
+  const updateData: ProfileUpdate = {
+    name: name.trim(),
+    college: college.trim(),
+    subject: subject.trim(),
+    year: yearStr,
+    one_thing: oneThing?.trim() || null,
+    photo_url: photoUrl,
+    other_info: otherInfo,
+    involvements: involvements,
+    instagram_handle: instagramHandle,
+    linkedin_url: linkedinUrl,
+    // Note: editing resets approval status for moderation
+    approved: false,
+  };
+
+  const { error: updateError } = await supabase
+    .from("profiles")
+    .update(updateData as never)
+    .eq("id", profileId);
+
+  if (updateError) {
+    console.error("Update error:", updateError);
+    return { error: `Could not update profile: ${updateError.message}` };
+  }
+
+  revalidatePath("/people");
+  revalidatePath(`/people/${existingProfile.slug}`);
+
+  return { success: true, slug: existingProfile.slug };
+}
+
+export async function deleteProfile(
+  prev: DeleteProfileState,
+  formData: FormData
+): Promise<DeleteProfileState> {
+  // Get the current authenticated user
+  const authClient = await createClient();
+  if (!authClient) {
+    return { error: "Server configuration error. Please try again later." };
+  }
+
+  const { data: { user } } = await authClient.auth.getUser();
+  if (!user) {
+    return { error: "You must be signed in to delete your profile." };
+  }
+
+  const profileId = formData.get("profile_id") as string | null;
+
+  if (!profileId) {
+    return { error: "Profile ID is required." };
+  }
+
+  const supabase = getServiceRoleClient();
+  if (!supabase) {
+    return { error: "Server configuration error. Please try again later." };
+  }
+
+  // Verify the profile belongs to the current user
+  const { data: existingProfile, error: fetchError } = await supabase
+    .from("profiles")
+    .select("id, photo_url, user_id, slug")
+    .eq("id", profileId)
+    .single() as { data: { id: string; photo_url: string | null; user_id: string | null; slug: string } | null; error: unknown };
+
+  if (fetchError || !existingProfile) {
+    return { error: "Profile not found." };
+  }
+
+  if (existingProfile.user_id !== user.id) {
+    return { error: "You can only delete your own profile." };
+  }
+
+  // Delete photo from storage if it exists
+  if (existingProfile.photo_url) {
+    const oldPath = existingProfile.photo_url.split("/").pop();
+    if (oldPath) {
+      await supabase.storage.from(PROFILE_PHOTOS_BUCKET).remove([oldPath]);
+    }
+  }
+
+  // Delete the profile
+  const { error: deleteError } = await supabase
+    .from("profiles")
+    .delete()
+    .eq("id", profileId);
+
+  if (deleteError) {
+    console.error("Delete error:", deleteError);
+    return { error: `Could not delete profile: ${deleteError.message}` };
+  }
+
+  revalidatePath("/people");
+
+  return { success: true };
 }

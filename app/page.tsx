@@ -8,47 +8,99 @@ import {
   AbstractPlaceholder,
   AnimatedPhotoCard,
 } from "@/components/placeholder-image";
+import { getFeaturedProfiles } from "@/lib/features/people";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const featuredProfiles = await getFeaturedProfiles(10);
   return (
     <div className="min-h-screen bg-[#FAFAFA]">
       {/* Hero Section - Bold & Oversized */}
       <section className="relative h-[calc(100vh-80px)] overflow-hidden bg-[#002147]">
-        {/* Abstract background decoration with animations */}
-        <AbstractPlaceholder variant={3} animated />
-
-        {/* Floating photo collage - right side */}
-        <div className="absolute right-0 top-0 hidden h-full w-1/3 lg:block">
-          <div className="relative h-full w-full">
-            {/* Main large photo - floating animation */}
-            <div className="absolute right-12 top-[15%] h-[45%] w-[70%] animate-fade-in animate-float-up opacity-0 shadow-2xl animation-delay-400">
+        {/* Mobile photo collage background - visible on mobile only */}
+        <div className="absolute inset-0 lg:hidden">
+          {/* Photo grid background */}
+          <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-1 opacity-40">
+            <div className="relative overflow-hidden">
               <Image
                 src="/DSC02713.JPG"
                 alt="David Quan"
                 fill
                 className="object-cover"
-                sizes="(min-width: 1024px) 25vw, 0vw"
+                sizes="50vw"
+                priority
+              />
+            </div>
+            <div className="relative overflow-hidden">
+              <Image
+                src="/IMG_2944.JPG"
+                alt="OneOxford community"
+                fill
+                className="object-cover"
+                sizes="50vw"
+              />
+            </div>
+            <div className="relative overflow-hidden">
+              <Image
+                src="/IMG_5398.JPG"
+                alt="OneOxford community"
+                fill
+                className="object-cover"
+                sizes="50vw"
+              />
+            </div>
+            <div className="relative overflow-hidden">
+              <Image
+                src="/IMG_5739.JPG"
+                alt="OneOxford community"
+                fill
+                className="object-cover"
+                sizes="50vw"
+              />
+            </div>
+          </div>
+          {/* Dark gradient overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#002147] via-[#002147]/90 to-[#002147]/70" />
+        </div>
+
+        {/* Abstract background decoration with animations - desktop only */}
+        <div className="hidden lg:block">
+          <AbstractPlaceholder variant={3} animated />
+        </div>
+
+        {/* Floating photo collage - right side - desktop only */}
+        <div className="absolute right-0 top-0 hidden h-full w-[45%] lg:block">
+          <div className="relative h-full w-full">
+            {/* Main large photo - floating animation */}
+            <div className="absolute right-8 top-[10%] h-[55%] w-[75%] animate-fade-in animate-float-up opacity-0 shadow-2xl animation-delay-400">
+              <Image
+                src="/DSC02713.JPG"
+                alt="David Quan"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 35vw, 0vw"
                 priority
               />
             </div>
             {/* Smaller overlapping photo - floating animation */}
-            <div className="absolute bottom-[20%] right-[45%] h-[30%] w-[50%] animate-fade-in opacity-0 shadow-xl animation-delay-500">
-              <AnimatedPhotoCard
-                theme="gold"
-                pattern="dots"
-                floatDirection="down"
-                delay={1}
-                className="h-full w-full"
+            <div className="absolute bottom-[15%] right-[50%] h-[38%] w-[55%] animate-fade-in opacity-0 shadow-xl animation-delay-500">
+              <Image
+                src="/IMG_2944.JPG"
+                alt="OneOxford community"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 25vw, 0vw"
               />
             </div>
             {/* Accent photo - floating animation */}
-            <div className="absolute bottom-[35%] right-8 h-[20%] w-[35%] animate-fade-in opacity-0 shadow-lg animation-delay-300">
-              <AnimatedPhotoCard
-                theme="blue"
-                pattern="lines"
-                floatDirection="right"
-                delay={0.5}
-                className="h-full w-full"
+            <div className="absolute bottom-[30%] right-4 h-[28%] w-[40%] animate-fade-in opacity-0 shadow-lg animation-delay-300">
+              <Image
+                src="/IMG_5398.JPG"
+                alt="OneOxford community"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 20vw, 0vw"
               />
             </div>
           </div>
@@ -111,7 +163,7 @@ export default function Home() {
                 The Movement
               </span>
               <h2 className="mt-2 font-serif text-3xl font-normal tracking-tight text-[#002147] md:text-4xl">
-                Faces of OneOxford
+                #OneOxford Voices
               </h2>
             </div>
             <Link
@@ -125,92 +177,83 @@ export default function Home() {
 
           {/* Asymmetric photo grid with staggered animations */}
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4 lg:grid-cols-6">
-            {/* Large featured photo */}
-            <div className="col-span-2 row-span-2">
-              <AnimatedPhotoCard
-                theme="blue"
-                pattern="circles"
-                floatDirection="up"
-                delay={0}
-                className="h-full min-h-[300px] w-full"
-              />
-            </div>
-            
-            {/* Smaller photos with staggered float animations */}
-            <div className="col-span-1">
-              <AnimatedPhotoCard
-                theme="gold"
-                pattern="dots"
-                floatDirection="down"
-                delay={0.5}
-                className="h-full min-h-[140px] w-full"
-              />
-            </div>
-            <div className="col-span-1">
-              <AnimatedPhotoCard
-                theme="gradient"
-                pattern="lines"
-                floatDirection="up"
-                delay={1}
-                className="h-full min-h-[140px] w-full"
-              />
-            </div>
-            <div className="col-span-1 hidden lg:block">
-              <AnimatedPhotoCard
-                theme="light"
-                pattern="grid"
-                floatDirection="down"
-                delay={1.5}
-                className="h-full min-h-[140px] w-full"
-              />
-            </div>
-            <div className="col-span-1 hidden lg:block">
-              <AnimatedPhotoCard
-                theme="blue"
-                pattern="waves"
-                floatDirection="up"
-                delay={2}
-                className="h-full min-h-[140px] w-full"
-              />
-            </div>
-            
-            {/* Bottom row with opposite float directions */}
-            <div className="col-span-1">
-              <AnimatedPhotoCard
-                theme="light"
-                pattern="circles"
-                floatDirection="up"
-                delay={0.75}
-                className="h-full min-h-[140px] w-full"
-              />
-            </div>
-            <div className="col-span-1">
-              <AnimatedPhotoCard
-                theme="blue"
-                pattern="dots"
-                floatDirection="down"
-                delay={1.25}
-                className="h-full min-h-[140px] w-full"
-              />
-            </div>
-            <div className="col-span-1 hidden lg:block">
-              <AnimatedPhotoCard
-                theme="gold"
-                pattern="lines"
-                floatDirection="up"
-                delay={1.75}
-                className="h-full min-h-[140px] w-full"
-              />
-            </div>
-            <div className="col-span-1 hidden lg:block">
-              <AnimatedPhotoCard
-                theme="gradient"
-                pattern="dots"
-                floatDirection="down"
-                delay={2.25}
-                className="h-full min-h-[140px] w-full"
-              />
-            </div>
+            {featuredProfiles.length > 0 ? (
+              <>
+                {/* Large featured photo - David Quan linking to manifesto */}
+                <Link
+                  href="/manifesto"
+                  className="group col-span-2 row-span-2 relative overflow-hidden aspect-square"
+                >
+                  <Image
+                    src="/DSC02713.JPG"
+                    alt="David Quan"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(min-width: 1024px) 33vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#002147]/80 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+                    <p className="text-sm font-semibold text-white">David Quan</p>
+                    <p className="text-xs text-white/70">Read the manifesto</p>
+                  </div>
+                </Link>
+                
+                {/* Smaller photos with staggered animations */}
+                {featuredProfiles.slice(0, 8).map((profile, index) => (
+                  <Link
+                    key={profile.id}
+                    href={`/people/${profile.slug}`}
+                    className={`group relative col-span-1 overflow-hidden aspect-square ${index >= 4 ? 'hidden lg:block' : ''}`}
+                  >
+                    <Image
+                      src={profile.photo_url!}
+                      alt={profile.name}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      sizes="(min-width: 1024px) 16vw, 25vw"
+                      unoptimized
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#002147]/80 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div className="absolute bottom-0 left-0 right-0 p-2 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+                      <p className="text-xs font-semibold text-white truncate">{profile.name}</p>
+                    </div>
+                  </Link>
+                ))}
+              </>
+            ) : (
+              <>
+                {/* Fallback placeholders when no profiles are available */}
+                <div className="col-span-2 row-span-2">
+                  <AnimatedPhotoCard
+                    theme="blue"
+                    pattern="circles"
+                    floatDirection="up"
+                    delay={0}
+                    className="h-full min-h-[300px] w-full"
+                  />
+                </div>
+                {[
+                  { theme: "gold" as const, pattern: "dots" as const, delay: 0.5 },
+                  { theme: "gradient" as const, pattern: "lines" as const, delay: 1 },
+                  { theme: "light" as const, pattern: "grid" as const, delay: 1.5, hidden: true },
+                  { theme: "blue" as const, pattern: "waves" as const, delay: 2, hidden: true },
+                  { theme: "light" as const, pattern: "circles" as const, delay: 0.75 },
+                  { theme: "blue" as const, pattern: "dots" as const, delay: 1.25 },
+                  { theme: "gold" as const, pattern: "lines" as const, delay: 1.75, hidden: true },
+                  { theme: "gradient" as const, pattern: "dots" as const, delay: 2.25, hidden: true },
+                ].map((item, i) => (
+                  <div key={i} className={`col-span-1 ${item.hidden ? 'hidden lg:block' : ''}`}>
+                    <AnimatedPhotoCard
+                      theme={item.theme}
+                      pattern={item.pattern}
+                      floatDirection={i % 2 === 0 ? "up" : "down"}
+                      delay={item.delay}
+                      className="h-full min-h-[140px] w-full"
+                    />
+                  </div>
+                ))}
+              </>
+            )}
           </div>
 
           {/* Mobile view all link */}
@@ -330,13 +373,12 @@ export default function Home() {
             {/* Image side */}
             <div className="relative">
               <div className="relative aspect-4/5 w-full max-w-md lg:max-w-none">
-                <PlaceholderImage
-                  variant="portrait"
-                  theme="gradient"
-                  pattern="circles"
-                  label="Featured member"
-                  animated
-                  className="h-full w-full shadow-2xl"
+                <Image
+                  src="/IMG_5739.JPG"
+                  alt="Featured OneOxford member"
+                  fill
+                  className="object-cover shadow-2xl"
+                  sizes="(min-width: 1024px) 40vw, 80vw"
                 />
               </div>
               {/* Decorative accent - now with subtle animation via CSS */}

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Instagram, Linkedin } from "lucide-react";
 import { getProfileBySlug } from "@/lib/features/people";
 import { ShareButton } from "@/components/share-button";
 import { PlaceholderImage } from "@/components/placeholder-image";
@@ -122,28 +122,34 @@ export default async function ProfilePage({ params }: Props) {
                 </div>
               )}
               
-              {profile.instagram_handle && (
-                <div>
-                  <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[#002147]/50">
-                    Instagram
-                  </p>
-                  <a
-                    href={`https://www.instagram.com/${profile.instagram_handle}/`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-lg text-[#002147] underline transition-colors hover:text-[#E2C044]"
-                  >
-                    {profile.instagram_handle}
-                  </a>
-                </div>
-              )}
-              
-              <div className="pt-4">
+              <div className="flex items-center gap-3 pt-4">
                 <ShareButton
                   title={`${profile.name} · #OneOxford`}
                   text={profile.one_thing ?? `${profile.name} supports #OneOxford`}
                   path={`/people/${profile.slug}`}
                 />
+                {profile.instagram_handle && (
+                  <a
+                    href={`https://www.instagram.com/${profile.instagram_handle}/`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex size-12 items-center justify-center border border-[#002147]/20 text-[#002147] transition-colors hover:border-[#002147] hover:bg-[#002147] hover:text-white"
+                    aria-label="Instagram"
+                  >
+                    <Instagram className="size-5" />
+                  </a>
+                )}
+                {profile.linkedin_url && (
+                  <a
+                    href={`https://www.linkedin.com/in/${profile.linkedin_url}/`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex size-12 items-center justify-center border border-[#002147]/20 text-[#002147] transition-colors hover:border-[#002147] hover:bg-[#002147] hover:text-white"
+                    aria-label="LinkedIn"
+                  >
+                    <Linkedin className="size-5" />
+                  </a>
+                )}
               </div>
             </div>
           </div>

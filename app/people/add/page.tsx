@@ -79,6 +79,13 @@ export default async function AddYourselfPage() {
                 </p>
               )}
               <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
+                <Link
+                  href="/people/edit"
+                  className="group inline-flex items-center justify-center gap-3 bg-[#E2C044] px-8 py-5 text-base font-semibold uppercase tracking-wide text-[#002147] transition-colors hover:bg-[#002147] hover:text-white"
+                >
+                  Edit your profile
+                  <ArrowRight className="size-5 transition-transform group-hover:translate-x-2" />
+                </Link>
                 {existingProfile.approved && (
                   <Link
                     href={`/people/${existingProfile.slug}`}
