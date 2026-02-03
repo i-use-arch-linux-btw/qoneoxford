@@ -364,54 +364,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Testimonial / Featured Story Section */}
-      <section className="relative overflow-hidden bg-[#002147] py-24 md:py-32">
-        <AbstractPlaceholder variant={1} animated />
-
-        <div className="container relative mx-auto max-w-7xl px-6 md:px-12">
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-            {/* Image side */}
-            <div className="relative">
-              <div className="relative aspect-4/5 w-full max-w-md lg:max-w-none">
-                <Image
-                  src="/IMG_5739.JPG"
-                  alt="Featured OneOxford member"
-                  fill
-                  className="object-cover shadow-2xl"
-                  sizes="(min-width: 1024px) 40vw, 80vw"
-                />
-              </div>
-              {/* Decorative accent - now with subtle animation via CSS */}
-              <div className="absolute -bottom-4 -right-4 h-full w-full animate-pulse border border-[#E2C044]/20 lg:-bottom-6 lg:-right-6" style={{ animationDuration: '4s' }} />
-            </div>
-
-            {/* Text side */}
-            <div>
-              <span className="text-sm font-semibold uppercase tracking-widest text-[#E2C044]">
-                Featured Story
-              </span>
-              <blockquote className="mt-6 font-serif text-2xl font-normal leading-relaxed text-white md:text-3xl lg:text-4xl">
-                &ldquo;OneOxford gave me the courage to speak up about what
-                really matters. For the first time, I feel like my voice
-                counts.&rdquo;
-              </blockquote>
-              <div className="mt-8">
-                <p className="font-medium text-white">Student Name</p>
-                <p className="text-sm text-white/50">
-                  College Name, Year
-                </p>
-              </div>
-              <Link
-                href="/people"
-                className="group mt-10 inline-flex items-center gap-3 border border-white/30 px-6 py-4 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:border-white hover:bg-white hover:text-[#002147]"
-              >
-                Read more stories
-                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
