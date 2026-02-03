@@ -23,6 +23,7 @@ export interface Database {
           other_info: string | null;
           involvements: string | null;
           instagram_handle: string | null;
+          linkedin_url: string | null;
           created_at: string;
           approved: boolean;
           user_id: string | null;
@@ -40,6 +41,7 @@ export interface Database {
           other_info?: string | null;
           involvements?: string | null;
           instagram_handle?: string | null;
+          linkedin_url?: string | null;
           created_at?: string;
           approved?: boolean;
           user_id?: string | null;

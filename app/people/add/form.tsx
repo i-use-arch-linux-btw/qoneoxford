@@ -22,6 +22,15 @@ function normalizeInstagramHandle(value: string): string {
   return value.replace(/@/g, "").replace(/\s/g, "").trim();
 }
 
+function normalizeLinkedinUsername(value: string): string {
+  // Extract username from full URL if pasted
+  const match = value.match(/linkedin\.com\/in\/([^/?]+)/i);
+  if (match) {
+    return match[1].trim();
+  }
+  return value.replace(/\s/g, "").trim();
+}
+
 const YEAR_OPTIONS = [
   "Bachelor's 1st Year",
   "Bachelor's 2nd Year",
@@ -42,6 +51,7 @@ interface FormDraft {
   involvements: string;
   other_info: string;
   instagram_handle: string;
+  linkedin_url: string;
 }
 
 export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; isSignedIn: boolean }) {
@@ -57,6 +67,7 @@ export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; i
   const [involvements, setInvolvements] = useState("");
   const [otherInfo, setOtherInfo] = useState("");
   const [instagramHandle, setInstagramHandle] = useState("");
+  const [linkedinUrl, setLinkedinUrl] = useState("");
   
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
@@ -92,6 +103,7 @@ export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; i
         if (draft.involvements) setInvolvements(draft.involvements);
         if (draft.other_info) setOtherInfo(draft.other_info);
         if (draft.instagram_handle) setInstagramHandle(normalizeInstagramHandle(draft.instagram_handle));
+        if (draft.linkedin_url) setLinkedinUrl(normalizeLinkedinUsername(draft.linkedin_url));
         // Clear after restoring so it doesn't persist forever
         sessionStorage.removeItem(STORAGE_KEY);
       }
@@ -112,6 +124,7 @@ export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; i
         involvements,
         other_info: otherInfo,
         instagram_handle: instagramHandle,
+        linkedin_url: linkedinUrl,
       };
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
     } catch {
@@ -277,14 +290,28 @@ export function AddProfileForm({ colleges, isSignedIn }: { colleges: string[]; i
       
       <div className="space-y-2">
         <Label htmlFor="instagram_handle" className="text-sm font-semibold uppercase tracking-wide text-[#002147]/70">
-          Instagram account @
+          Instagram
         </Label>
         <Input
           id="instagram_handle"
           name="instagram_handle"
-          placeholder="username"
+          placeholder="Username"
           value={instagramHandle}
           onChange={(e) => setInstagramHandle(normalizeInstagramHandle(e.target.value))}
+          className={inputStyles}
+        />
+      </div>
+      
+      <div className="space-y-2">
+        <Label htmlFor="linkedin_url" className="text-sm font-semibold uppercase tracking-wide text-[#002147]/70">
+          LinkedIn
+        </Label>
+        <Input
+          id="linkedin_url"
+          name="linkedin_url"
+          placeholder="Username"
+          value={linkedinUrl}
+          onChange={(e) => setLinkedinUrl(normalizeLinkedinUsername(e.target.value))}
           className={inputStyles}
         />
       </div>

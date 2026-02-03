@@ -4,7 +4,7 @@ export {
   PROFILE_PHOTOS_BUCKET,
   COLLEGES,
 } from "./constants";
-export { getProfiles, getProfileBySlug } from "./queries";
+export { getProfiles, getProfileBySlug, getDistinctSubjects, getUserProfile, getFeaturedProfiles } from "./queries";
 export type { GetProfilesOptions } from "./queries";
-export { addProfile } from "./actions";
-export type { AddProfileState } from "./actions";
+export { addProfile, updateProfile, deleteProfile } from "./actions";
+export type { AddProfileState, UpdateProfileState, DeleteProfileState } from "./actions";
