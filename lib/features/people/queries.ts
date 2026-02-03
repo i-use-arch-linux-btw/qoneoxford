@@ -52,7 +52,7 @@ export async function getDistinctSubjects(): Promise<string[]> {
     const { data, error } = await supabase
       .from("profiles")
       .select("subject")
-      .eq("approved", true);
+      .eq("approved", true) as { data: { subject: string }[] | null; error: unknown };
 
     if (error || !data) return [];
 

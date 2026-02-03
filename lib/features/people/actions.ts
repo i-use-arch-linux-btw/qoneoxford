@@ -224,7 +224,7 @@ export async function updateProfile(
     .from("profiles")
     .select("id, slug, photo_url, user_id")
     .eq("id", profileId)
-    .single();
+    .single() as { data: { id: string; slug: string; photo_url: string | null; user_id: string | null } | null; error: unknown };
 
   if (fetchError || !existingProfile) {
     return { error: "Profile not found." };
@@ -346,7 +346,7 @@ export async function deleteProfile(
     .from("profiles")
     .select("id, photo_url, user_id, slug")
     .eq("id", profileId)
-    .single();
+    .single() as { data: { id: string; photo_url: string | null; user_id: string | null; slug: string } | null; error: unknown };
 
   if (fetchError || !existingProfile) {
     return { error: "Profile not found." };
