@@ -2,176 +2,41 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import Image from "next/image";
 
-// Pillar data with associated visual themes
+// Pillar data with associated visual themes and images
 const pillars = [
   { 
     word: "Thing", 
     description: "What's your One thing you'd change about Oxford?",
-    theme: "gradient" as const,
-    pattern: "circles" as const,
+    image: "/six-pillars/one-thing.JPG",
   },
   { 
     word: "Community", 
     description: "Undergrads and postgrads together, not two separate worlds",
-    theme: "gold" as const,
-    pattern: "dots" as const,
+    image: "/six-pillars/one-community.jpg",
   },
   { 
     word: "Standard", 
     description: "We're the #1 university, let's act like it",
-    theme: "blue" as const,
-    pattern: "lines" as const,
+    image: "/six-pillars/one-standard.JPEG",
   },
   { 
     word: "Voice", 
     description: "Every individual matters",
-    theme: "gradient" as const,
-    pattern: "waves" as const,
+    image: "/six-pillars/one-voice.JPG",
   },
   { 
     word: "Vote", 
     description: "Your vote counts",
-    theme: "gold" as const,
-    pattern: "grid" as const,
+    image: "/six-pillars/one-vote.jpg",
   },
   { 
     word: "Oxbridge", 
     description: "Leadership experience at both Cambridge and Oxford",
-    theme: "blue" as const,
-    pattern: "circles" as const,
+    image: "/six-pillars/one-oxbridge.JPG",
   },
 ];
-
-// Animated placeholder for pillars
-function PillarImage({ 
-  theme, 
-  pattern,
-  isActive,
-}: { 
-  theme: "blue" | "gold" | "gradient";
-  pattern: "dots" | "lines" | "circles" | "waves" | "grid";
-  isActive: boolean;
-}) {
-  const backgrounds = {
-    blue: "from-[#002147] via-[#003366] to-[#004080]",
-    gold: "from-[#E2C044] via-[#D4A84B] to-[#C9983F]",
-    gradient: "from-[#002147] via-[#003366] to-[#E2C044]/30",
-  };
-
-  const patternColors = {
-    blue: "rgba(226, 192, 68, 0.2)",
-    gold: "rgba(0, 33, 71, 0.2)",
-    gradient: "rgba(255, 255, 255, 0.15)",
-  };
-
-  const patterns = {
-    dots: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='2' fill='${encodeURIComponent(patternColors[theme])}'/%3E%3C/svg%3E")`,
-    lines: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40L40 0' stroke='${encodeURIComponent(patternColors[theme])}' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,
-    circles: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='20' stroke='${encodeURIComponent(patternColors[theme])}' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,
-    waves: `url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q25 0 50 10 T100 10' stroke='${encodeURIComponent(patternColors[theme])}' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,
-    grid: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0z' fill='none' stroke='${encodeURIComponent(patternColors[theme])}' stroke-width='1'/%3E%3C/svg%3E")`,
-  };
-
-  return (
-    <div className={`relative h-full w-full overflow-hidden bg-linear-to-br ${backgrounds[theme]}`}>
-      {/* Animated pattern overlay */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ backgroundImage: patterns[pattern] }}
-        animate={{ 
-          backgroundPosition: isActive ? ["0% 0%", "100% 100%"] : "0% 0%",
-        }}
-        transition={{ 
-          duration: 20, 
-          ease: "linear", 
-          repeat: Infinity,
-        }}
-      />
-      
-      {/* Floating orbs */}
-      <motion.div
-        className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/10 blur-3xl"
-        animate={{ 
-          scale: isActive ? [1, 1.2, 1] : 1,
-          opacity: isActive ? [0.1, 0.2, 0.1] : 0.1,
-        }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-[#E2C044]/10 blur-3xl"
-        animate={{ 
-          scale: isActive ? [1, 1.3, 1] : 1,
-          opacity: isActive ? [0.1, 0.15, 0.1] : 0.1,
-        }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-      />
-      
-      {/* Center decorative element */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <motion.div 
-          className="relative"
-          animate={{ 
-            rotate: isActive ? 360 : 0,
-          }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-        >
-          <svg
-            className="h-48 w-48 text-white/10"
-            viewBox="0 0 100 100"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={0.5}
-          >
-            <circle cx="50" cy="50" r="45" />
-            <circle cx="50" cy="50" r="35" />
-            <circle cx="50" cy="50" r="25" />
-            <circle cx="50" cy="50" r="15" />
-          </svg>
-        </motion.div>
-      </div>
-
-      {/* Image placeholder icon with pulse */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <motion.div
-          animate={{ 
-            scale: isActive ? [1, 1.05, 1] : 1,
-            opacity: isActive ? [0.3, 0.4, 0.3] : 0.2,
-          }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <svg
-            className="h-20 w-20 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={0.5}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-            />
-          </svg>
-        </motion.div>
-      </div>
-
-      {/* Shimmer effect */}
-      <motion.div
-        className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent"
-        animate={{ 
-          x: isActive ? ["-100%", "200%"] : "-100%",
-        }}
-        transition={{ 
-          duration: 3, 
-          repeat: Infinity, 
-          repeatDelay: 2,
-          ease: "easeInOut",
-        }}
-      />
-    </div>
-  );
-}
 
 export function ScrollPillars() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -220,10 +85,10 @@ export function ScrollPillars() {
       {/* Sticky container */}
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         {/* Content - Left side */}
-        <div className="container relative z-10 mx-auto max-w-7xl px-6 md:px-12">
+        <div className="container relative z-10 mx-auto max-w-7xl px-6 md:px-12 lg:pl-24">
           <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
             {/* Text content */}
-            <div className="max-w-xl">
+            <div className="relative z-10 order-1 rounded-lg bg-[#002147]/70 p-6 backdrop-blur-md lg:order-none lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
               {/* Number label */}
               <motion.span 
                 key={`num-${activeIndex}`}
@@ -235,22 +100,20 @@ export function ScrollPillars() {
               </motion.span>
               
               {/* One + Word */}
-              <h2 className="mt-4 font-serif text-[clamp(3rem,10vw,8rem)] font-normal leading-[1.1] tracking-tight text-white">
+              <h2 className="mt-4 font-serif text-[clamp(2.5rem,8vw,6rem)] font-normal leading-[1.1] tracking-tight text-white">
                 <span className="block text-white/40">One</span>
-                <div className="relative h-[1.25em] overflow-hidden">
-                  <AnimatePresence mode="popLayout" initial={false}>
-                    <motion.span
-                      key={pillars[activeIndex].word}
-                      initial={{ y: direction * 100 + "%", opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: direction * -100 + "%", opacity: 0 }}
-                      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-                      className="block text-white"
-                    >
-                      {pillars[activeIndex].word}
-                    </motion.span>
-                  </AnimatePresence>
-                </div>
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={pillars[activeIndex].word}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="block text-white"
+                  >
+                    {pillars[activeIndex].word}
+                  </motion.span>
+                </AnimatePresence>
               </h2>
 
               {/* Description */}
@@ -270,12 +133,12 @@ export function ScrollPillars() {
               </div>
             </div>
 
-            {/* Photo content - Right side */}
-            <div className="relative hidden lg:block">
+            {/* Photo content - Right side on desktop, below text on mobile */}
+            <div className="relative order-2 mt-8 lg:order-none lg:mt-0">
               <div className="relative">
                 {/* Main image container with animated border */}
                 <motion.div
-                  className="relative aspect-4/5 overflow-hidden"
+                  className="relative aspect-[4/3] overflow-hidden lg:aspect-4/5"
                   initial={false}
                   animate={{ 
                     boxShadow: [
@@ -307,18 +170,20 @@ export function ScrollPillars() {
                       transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
                       className="absolute inset-0"
                     >
-                      <PillarImage 
-                        theme={pillars[activeIndex].theme}
-                        pattern={pillars[activeIndex].pattern}
-                        isActive={true}
+                      <Image
+                        src={pillars[activeIndex].image}
+                        alt={`One ${pillars[activeIndex].word}`}
+                        fill
+                        className="object-cover"
+                        sizes="(min-width: 1024px) 40vw, 100vw"
                       />
                     </motion.div>
                   </AnimatePresence>
                 </motion.div>
 
-                {/* Decorative floating elements */}
+                {/* Decorative floating elements - hidden on mobile */}
                 <motion.div
-                  className="absolute -bottom-4 -right-4 h-24 w-24 border border-[#E2C044]/30"
+                  className="absolute -bottom-4 -right-4 hidden h-24 w-24 border border-[#E2C044]/30 lg:block"
                   animate={{ 
                     rotate: [0, 90],
                     scale: [1, 1.1, 1],
@@ -326,7 +191,7 @@ export function ScrollPillars() {
                   transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                 />
                 <motion.div
-                  className="absolute -left-6 -top-6 h-16 w-16 rounded-full border border-white/20"
+                  className="absolute -left-6 -top-6 hidden h-16 w-16 rounded-full border border-white/20 lg:block"
                   animate={{ 
                     scale: [1, 1.2, 1],
                     opacity: [0.2, 0.4, 0.2],
@@ -334,18 +199,6 @@ export function ScrollPillars() {
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 />
                 
-                {/* Small accent images */}
-                <motion.div
-                  className="absolute -bottom-8 -left-8 h-32 w-32 overflow-hidden opacity-60"
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <PillarImage 
-                    theme={pillars[(activeIndex + 1) % pillars.length].theme}
-                    pattern={pillars[(activeIndex + 1) % pillars.length].pattern}
-                    isActive={false}
-                  />
-                </motion.div>
               </div>
             </div>
           </div>
@@ -360,8 +213,8 @@ export function ScrollPillars() {
           transition={{ duration: 0.1, ease: "easeOut" }}
         />
 
-        {/* Side progress */}
-        <div className="absolute left-6 top-1/2 z-20 hidden -translate-y-1/2 flex-col gap-3 md:left-12 lg:flex">
+        {/* Side progress - only visible on lg screens */}
+        <div className="absolute left-6 top-1/2 z-20 hidden -translate-y-1/2 flex-col gap-3 lg:flex">
           {pillars.map((pillar, index) => (
             <button
               key={pillar.word}
