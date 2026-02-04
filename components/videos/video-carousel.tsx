@@ -72,18 +72,20 @@ export function VideoCarousel({ videos }: VideoCarouselProps) {
                 className="absolute inset-0 flex items-center justify-center bg-black/20 transition-colors hover:bg-black/30"
                 aria-label="Play video"
               >
-                <div className="flex size-16 items-center justify-center border-2 border-white bg-white/10 transition-colors hover:bg-white/20">
-                  <Play className="size-6 text-white" fill="currentColor" />
+                <div className="flex size-12 items-center justify-center border-2 border-white bg-white/10 transition-colors hover:bg-white/20 md:size-16">
+                  <Play className="size-5 text-white md:size-6" fill="currentColor" />
                 </div>
               </button>
             )}
 
             {/* Video info overlay */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
-              <p className="mb-2 font-mono text-xs text-[#E2C044]">
-                {currentVideo.duration}
-              </p>
-              <h3 className="font-serif text-xl text-white md:text-2xl">
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-3 pt-10 md:p-6 md:pt-16">
+              {currentVideo.duration && (
+                <p className="mb-1 font-mono text-xs text-[#E2C044] md:mb-2">
+                  {currentVideo.duration}
+                </p>
+              )}
+              <h3 className="font-serif text-base leading-tight text-white md:text-2xl">
                 {currentVideo.title}
               </h3>
             </div>
