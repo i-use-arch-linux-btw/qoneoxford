@@ -10,35 +10,14 @@ export const metadata = {
   description: "Watch team videos and community content from the #OneOxford campaign.",
 };
 
-// Placeholder data for featured team videos (carousel)
+// Main campaign video
 const featuredVideos: FeaturedVideo[] = [
   {
     id: "1",
-    title: "My Story: Why I'm Running",
-    thumbnail: null,
-    videoUrl: null,
-    duration: "3:45",
-  },
-  {
-    id: "2",
-    title: "Community Voices: 50+ Stories",
-    thumbnail: null,
-    videoUrl: null,
-    duration: "8:22",
-  },
-  {
-    id: "3",
-    title: "The Manifesto Explained",
-    thumbnail: null,
-    videoUrl: null,
-    duration: "5:17",
-  },
-  {
-    id: "4",
-    title: "Behind the Campaign",
-    thumbnail: null,
-    videoUrl: null,
-    duration: "4:33",
+    title: "#OneOxford: David Quan 权丁文 for President",
+    thumbnail: "https://img.youtube.com/vi/FzzZ5dprPPI/maxresdefault.jpg",
+    videoUrl: "FzzZ5dprPPI",
+    duration: "",
   },
 ];
 
@@ -120,9 +99,9 @@ export default function VideosPage() {
   return (
     <div className="min-h-screen bg-[#FAFAFA]">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-[#002147] py-16 md:py-20 lg:py-24">
-        <div className="container relative mx-auto max-w-7xl px-6 md:px-12">
-          <h1 className="font-serif text-5xl leading-[0.95] tracking-tight text-white md:text-7xl lg:text-8xl">
+      <section className="relative overflow-hidden bg-[#002147] py-10 md:py-20 lg:py-24">
+        <div className="container relative mx-auto max-w-7xl px-4 md:px-12">
+          <h1 className="font-serif text-4xl leading-[0.95] tracking-tight text-white md:text-7xl lg:text-8xl">
             Videos
           </h1>
         </div>
@@ -131,19 +110,19 @@ export default function VideosPage() {
       </section>
 
       {/* Featured Videos Carousel Section */}
-      <section className="bg-white py-16 md:py-24">
-        <div className="container mx-auto max-w-4xl px-6 md:px-12">
-          <h2 className="mb-8 font-serif text-3xl font-normal tracking-tight text-[#002147] md:text-4xl">
-            Team Videos
+      <section className="bg-white py-8 md:py-24">
+        <div className="container mx-auto max-w-4xl px-4 md:px-12">
+          <h2 className="mb-4 font-serif text-2xl font-normal tracking-tight text-[#002147] md:mb-8 md:text-4xl">
+            Campaign Video
           </h2>
           <VideoCarousel videos={featuredVideos} />
         </div>
       </section>
 
       {/* TikTok Gallery Section - True full width */}
-      <section className="bg-white pb-16 md:pb-24">
-        <div className="mx-auto mb-8 max-w-4xl px-6 md:px-12">
-          <h2 className="font-serif text-3xl font-normal tracking-tight text-[#002147] md:text-4xl">
+      <section className="bg-white pb-10 md:pb-24">
+        <div className="mx-auto mb-4 max-w-4xl px-4 md:mb-8 md:px-12">
+          <h2 className="font-serif text-2xl font-normal tracking-tight text-[#002147] md:text-4xl">
             Clips
           </h2>
         </div>
