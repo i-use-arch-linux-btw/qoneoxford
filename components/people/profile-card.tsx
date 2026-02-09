@@ -15,7 +15,7 @@ export function ProfileCard({ profile }: { profile: Profile }) {
             src={profile.photo_url}
             alt={profile.name}
             fill
-            className="object-cover transition-transform group-hover:scale-[1.02]"
+            className="object-cover object-top transition-transform group-hover:scale-[1.02]"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             unoptimized
           />

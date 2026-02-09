@@ -97,7 +97,7 @@ export async function getProfileBySlug(slug: string): Promise<Profile | null> {
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
-      .eq("slug", slug)
+      .eq("slug", slug.trim())
       .eq("approved", true)
       .single();
 

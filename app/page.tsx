@@ -121,13 +121,15 @@ export default async function Home() {
 
           {/* Bold CTAs */}
           <div className="animate-fade-up animation-delay-300 mt-16 flex flex-col gap-4 opacity-0 sm:flex-row sm:gap-6 md:mt-20">
-            <Link
-              href="/people/add"
+            <a
+              href="https://www.oxfordsu.org/studentvoice/elections/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center gap-3 bg-[#E2C044] px-8 py-5 text-base font-semibold uppercase tracking-wide text-[#002147] transition-colors hover:bg-white"
             >
-              Add your voice
+              Vote now
               <ArrowRight className="size-5 transition-transform group-hover:translate-x-2" />
-            </Link>
+            </a>
             <Link
               href="/people"
               className="group inline-flex items-center gap-3 border border-white/40 px-8 py-5 text-base font-semibold uppercase tracking-wide text-white/80 transition-colors hover:border-white hover:text-white"
@@ -280,13 +282,15 @@ export default async function Home() {
           </h2>
           
           <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:gap-6">
-            <Link
-              href="/vote"
+            <a
+              href="https://www.oxfordsu.org/studentvoice/elections/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center gap-3 bg-[#002147] px-8 py-5 text-base font-semibold uppercase tracking-wide text-white transition-colors hover:bg-black"
             >
               Vote now
               <ArrowRight className="size-5 transition-transform group-hover:translate-x-2" />
-            </Link>
+            </a>
             <Link
               href="/manifesto"
               className="group inline-flex items-center gap-3 border border-[#002147]/40 px-8 py-5 text-base font-semibold uppercase tracking-wide text-[#002147] transition-colors hover:border-[#002147] hover:bg-[#002147] hover:text-white"

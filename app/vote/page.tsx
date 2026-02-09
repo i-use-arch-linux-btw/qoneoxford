@@ -10,7 +10,8 @@ const voteInfo = [
   },
   {
     title: "Where",
-    body: "Vote online when the ballot opens. Link will be shared here and by Oxford SU when voting opens.",
+    body: "Vote online via the Oxford SU Elections Hub.",
+    link: "https://www.oxfordsu.org/studentvoice/elections/",
   },
   {
     title: "Who",
@@ -27,6 +28,17 @@ export default function VotePage() {
           <h1 className="font-serif text-5xl leading-[0.95] tracking-tight text-white md:text-7xl lg:text-8xl">
             How to vote
           </h1>
+          <div className="mt-8">
+            <a
+              href="https://www.oxfordsu.org/studentvoice/elections/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-3 bg-[#E2C044] px-8 py-5 text-base font-semibold uppercase tracking-wide text-[#002147] transition-colors hover:bg-white"
+            >
+              Vote now on Oxford SU
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
         {/* Bottom accent line */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#E2C044]" />
@@ -45,6 +57,19 @@ export default function VotePage() {
                   </h3>
                   <p className="text-lg leading-relaxed md:text-xl">
                     {section.body}
+                    {"link" in section && section.link && (
+                      <>
+                        {" "}
+                        <a
+                          href={section.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-semibold text-[#E2C044] underline underline-offset-4 transition-colors hover:text-[#002147]"
+                        >
+                          Go to Elections Hub &rarr;
+                        </a>
+                      </>
+                    )}
                   </p>
                 </div>
               </div>

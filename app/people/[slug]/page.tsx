@@ -64,13 +64,14 @@ export default async function ProfilePage({ params }: Props) {
         <div className="container mx-auto max-w-5xl px-6 md:px-12">
           <div className="flex flex-col gap-12 md:flex-row md:gap-16">
             {/* Photo */}
-            <div className="relative aspect-3/4 w-full shrink-0 overflow-hidden border border-[#002147]/10 bg-[#FAFAFA] md:w-80">
+            <div className="w-full shrink-0 self-start overflow-hidden border border-[#002147]/10 bg-[#FAFAFA] md:w-80">
               {profile.photo_url ? (
                 <Image
                   src={profile.photo_url}
                   alt={profile.name}
-                  fill
-                  className="object-cover"
+                  width={640}
+                  height={854}
+                  className="h-auto w-full"
                   priority
                   unoptimized
                 />
@@ -80,7 +81,7 @@ export default async function ProfilePage({ params }: Props) {
                   theme="blue"
                   pattern="circles"
                   label={profile.name}
-                  className="h-full w-full"
+                  className="aspect-3/4 w-full"
                 />
               )}
             </div>
